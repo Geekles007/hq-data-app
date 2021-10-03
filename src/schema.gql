@@ -1,0 +1,33 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input CreateUserInput {
+  created_at: String = "1633252724495"
+  email: String = ""
+  firstName: String = ""
+  id: String
+  lastName: String = ""
+  password: String = ""
+  updated_at: String = "1633252724495"
+  username: String = ""
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+}
+
+type Query {
+  users: [User!]!
+}
+
+type User {
+  created_at: String
+  email: String!
+  firstName: String!
+  id: String!
+  lastName: String!
+  password: String!
+  updated_at: String
+  username: String!
+}
