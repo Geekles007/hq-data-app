@@ -12,57 +12,62 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const graphql_1 = require("@nestjs/graphql");
 const typeorm_1 = require("typeorm");
+const luxon_1 = require("luxon");
 let User = class User {
     constructor() {
         this.id = "";
-        this.firstName = "";
-        this.lastName = "";
+        this.firstname = "";
+        this.lastname = "";
         this.email = "";
         this.username = "";
         this.password = "";
+        this.createdAt = new Date();
+        this.updatedAt = new Date();
     }
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)("uuid"),
-    (0, graphql_1.Field)(),
+    (0, graphql_1.Field)(Type => graphql_1.ID),
     (0, typeorm_1.Generated)("uuid"),
     __metadata("design:type", String)
 ], User.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: "text", name: "firstname" }),
     (0, graphql_1.Field)({ nullable: false }),
     __metadata("design:type", String)
-], User.prototype, "firstName", void 0);
+], User.prototype, "firstname", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: "text", name: "lastname" }),
     (0, graphql_1.Field)({ nullable: false }),
     __metadata("design:type", String)
-], User.prototype, "lastName", void 0);
+], User.prototype, "lastname", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: "text" }),
     (0, graphql_1.Field)({ nullable: false }),
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: "text" }),
     (0, graphql_1.Field)({ nullable: false }),
     __metadata("design:type", String)
 ], User.prototype, "username", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: "text" }),
     (0, graphql_1.Field)({ nullable: false }),
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
+    (0, typeorm_1.Column)({ nullable: true, default: luxon_1.DateTime.now().toUTC().toISO(), type: "timestamp" }),
     (0, graphql_1.Field)({ nullable: true }),
-    __metadata("design:type", String)
-], User.prototype, "created_at", void 0);
+    (0, typeorm_1.CreateDateColumn)({ name: "created_at" }),
+    __metadata("design:type", Date)
+], User.prototype, "createdAt", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
+    (0, typeorm_1.Column)({ nullable: true, default: luxon_1.DateTime.now().toUTC().toISO(), type: "timestamp" }),
     (0, graphql_1.Field)({ nullable: true }),
-    __metadata("design:type", String)
-], User.prototype, "updated_at", void 0);
+    (0, typeorm_1.UpdateDateColumn)({ name: "updated_at" }),
+    __metadata("design:type", Date)
+], User.prototype, "updatedAt", void 0);
 User = __decorate([
     (0, typeorm_1.Entity)("users"),
     (0, graphql_1.ObjectType)()

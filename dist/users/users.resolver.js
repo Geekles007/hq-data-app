@@ -21,11 +21,17 @@ let UsersResolver = class UsersResolver {
     constructor(usersService) {
         this.usersService = usersService;
     }
-    users() {
+    findAllUser() {
         return this.usersService.findAll();
     }
-    createUser(createUserInput) {
-        return this.usersService.create(createUserInput);
+    findUserById(id) {
+        return this.usersService.findOne(id);
+    }
+    createOrEditUser(createUserInput) {
+        return this.usersService.createOrEdit(createUserInput);
+    }
+    deleteUsers(userIds) {
+        return this.usersService.delete(userIds);
     }
 };
 __decorate([
@@ -33,14 +39,28 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], UsersResolver.prototype, "users", null);
+], UsersResolver.prototype, "findAllUser", null);
+__decorate([
+    (0, graphql_1.Query)(returns => user_entity_1.User),
+    __param(0, (0, graphql_1.Args)("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UsersResolver.prototype, "findUserById", null);
 __decorate([
     (0, graphql_1.Mutation)(returns => user_entity_1.User),
     __param(0, (0, graphql_1.Args)('createUserInput')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_user_input_1.CreateUserInput]),
     __metadata("design:returntype", Promise)
-], UsersResolver.prototype, "createUser", null);
+], UsersResolver.prototype, "createOrEditUser", null);
+__decorate([
+    (0, graphql_1.Mutation)(returns => Boolean),
+    __param(0, (0, graphql_1.Args)({ name: "userIds", type: () => [graphql_1.ID] })),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Array]),
+    __metadata("design:returntype", Promise)
+], UsersResolver.prototype, "deleteUsers", null);
 UsersResolver = __decorate([
     (0, graphql_1.Resolver)((of) => user_entity_1.User),
     __metadata("design:paramtypes", [users_service_1.UsersService])

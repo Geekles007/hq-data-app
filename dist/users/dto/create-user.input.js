@@ -13,13 +13,13 @@ exports.CreateUserInput = void 0;
 const graphql_1 = require("@nestjs/graphql");
 let CreateUserInput = class CreateUserInput {
     constructor() {
-        this.firstName = "";
-        this.lastName = "";
+        this.firstname = "";
+        this.lastname = "";
         this.email = "";
         this.username = "";
         this.password = "";
-        this.created_at = Date.now().toString();
-        this.updated_at = Date.now().toString();
+        this.createdAt = "";
+        this.updatedAt = "";
     }
 };
 __decorate([
@@ -29,11 +29,11 @@ __decorate([
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
-], CreateUserInput.prototype, "firstName", void 0);
+], CreateUserInput.prototype, "firstname", void 0);
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
-], CreateUserInput.prototype, "lastName", void 0);
+], CreateUserInput.prototype, "lastname", void 0);
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
@@ -49,11 +49,11 @@ __decorate([
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
-], CreateUserInput.prototype, "created_at", void 0);
+], CreateUserInput.prototype, "createdAt", void 0);
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
-], CreateUserInput.prototype, "updated_at", void 0);
+], CreateUserInput.prototype, "updatedAt", void 0);
 CreateUserInput = __decorate([
     (0, graphql_1.InputType)()
 ], CreateUserInput);

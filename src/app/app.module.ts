@@ -16,9 +16,9 @@ import {env} from "../config/environment";
             sortSchema: true
         }),
         TypeOrmModule.forRoot({
-            type: 'mysql',
+            type: 'postgres',
             host: env.host,
-            port: 3306,
+            port: parseInt(env?.port ?? "5432"),
             username: env.username,
             password: env.password,
             database: env.db_name,

@@ -3,31 +3,38 @@
 # ------------------------------------------------------
 
 input CreateUserInput {
-  created_at: String = "1633252724495"
+  createdAt: String = ""
   email: String = ""
-  firstName: String = ""
+  firstname: String = ""
   id: String
-  lastName: String = ""
+  lastname: String = ""
   password: String = ""
-  updated_at: String = "1633252724495"
+  updatedAt: String = ""
   username: String = ""
 }
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Mutation {
-  createUser(createUserInput: CreateUserInput!): User!
+  createOrEditUser(createUserInput: CreateUserInput!): User!
+  deleteUsers(userIds: [ID!]!): Boolean!
 }
 
 type Query {
-  users: [User!]!
+  findAllUser: [User!]!
+  findUserById(id: String!): User!
 }
 
 type User {
-  created_at: String
+  createdAt: DateTime
   email: String!
-  firstName: String!
-  id: String!
-  lastName: String!
+  firstname: String!
+  id: ID!
+  lastname: String!
   password: String!
-  updated_at: String
+  updatedAt: DateTime
   username: String!
 }

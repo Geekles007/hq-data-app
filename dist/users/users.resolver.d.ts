@@ -4,6 +4,8 @@ import { CreateUserInput } from "./dto/create-user.input";
 export declare class UsersResolver {
     private usersService;
     constructor(usersService: UsersService);
-    users(): Promise<User[]>;
-    createUser(createUserInput: CreateUserInput): Promise<User>;
+    findAllUser(): Promise<User[]>;
+    findUserById(id: string): Promise<User>;
+    createOrEditUser(createUserInput: CreateUserInput): Promise<User | null>;
+    deleteUsers(userIds: Array<string>): Promise<boolean | null>;
 }

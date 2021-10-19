@@ -6,10 +6,10 @@ export class CreateUserInput {
     id?: string;
 
     @Field()
-    firstName: string = "";
+    firstname: string = "";
 
     @Field()
-    lastName: string = "";
+    lastname: string = "";
 
     @Field()
     email: string = "";
@@ -21,8 +21,8 @@ export class CreateUserInput {
     password: string = "";
 
     @Field()
-    created_at?: string = Date.now().toString();
+    createdAt: string = "";
 
     @Field()
-    updated_at?: string = Date.now().toString();
+    updatedAt: string = "";
 }

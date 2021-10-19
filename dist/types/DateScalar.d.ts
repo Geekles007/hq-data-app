@@ -6,4 +6,3 @@ export declare class DateScalar implements CustomScalar<number, Date> {
     serialize(value: Date): number;
     parseLiteral(ast: ValueNode): Date | null;
 }
-export declare type DateTime = DateScalar;

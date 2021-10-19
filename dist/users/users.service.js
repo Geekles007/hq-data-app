@@ -22,16 +22,87 @@ const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const uuid_1 = require("uuid");
+const luxon_1 = require("luxon");
 let UsersService = class UsersService {
     constructor(usersRepository) {
         this.usersRepository = usersRepository;
     }
     async findAll() {
-        return this.usersRepository.find();
+        const users = await this.usersRepository.find();
+        try {
+            return users;
+        }
+        catch (error) {
+            throw new Error(error.message);
+        }
+    }
+    async findOne(id) {
+        return this.usersRepository.findOneOrFail(id);
     }
     async create(createUserInput) {
-        const newUser = this.usersRepository.create(Object.assign(Object.assign({ id: (0, uuid_1.v4)() }, createUserInput), { password: await bcrypt_1.default.hash(createUserInput.password, 12) }));
-        return this.usersRepository.save(newUser);
+        try {
+            const newUser = this.usersRepository.create(Object.assign(Object.assign({ id: (0, uuid_1.v4)() }, createUserInput), { createdAt: luxon_1.DateTime.now().toUTC().toISO(), updatedAt: luxon_1.DateTime.now().toUTC().toISO(), password: await bcrypt_1.default.hash(createUserInput.password, 12) }));
+            return this.usersRepository.save(newUser);
+        }
+        catch (error) {
+            throw new Error("Something went wrong -> " + error.message);
+        }
+    }
+    async update(id, createUserInput) {
+        let user = await this.usersRepository.findOneOrFail(createUserInput === null || createUserInput === void 0 ? void 0 : createUserInput.id);
+        if (user) {
+            return this.usersRepository.save(Object.assign(Object.assign({ id: id }, createUserInput), { createdAt: user === null || user === void 0 ? void 0 : user.createdAt, updatedAt: luxon_1.DateTime.now().toUTC().toISO() }));
+        }
+        else {
+            throw new Error("Something went wrong.");
+        }
+        return null;
+    }
+    async createOrEdit(data) {
+        const exists = await this.usersRepository.createQueryBuilder("users")
+            .where("users.email = :email", { email: data.email }).getOne();
+        if (!exists) {
+            if (data === null || data === void 0 ? void 0 : data.id) {
+                return this.update(data === null || data === void 0 ? void 0 : data.id, data);
+            }
+            else {
+                return this.create(data);
+            }
+        }
+        else {
+            throw new Error("This user already exists!");
+        }
+        return null;
+    }
+    async delete(ids) {
+        var _a;
+        const dataToRemove = (_a = await this.usersRepository.createQueryBuilder("users")
+            .where("users.id IN (:...ids)", {
+            ids: ids
+        }).getMany()) !== null && _a !== void 0 ? _a : [];
+        try {
+            if (dataToRemove.length > 0) {
+                const deleted = await this.usersRepository.remove(dataToRemove);
+                return true;
+            }
+        }
+        catch (e) {
+            throw new Error("We can't delete those users.");
+        }
+        return null;
+    }
+    async login(login, password) {
+        const pass = bcrypt_1.default.hash(password, 12);
+        try {
+            return await this.usersRepository.createQueryBuilder("users")
+                .where("users.username = :login", { login: login })
+                .orWhere("users.username = :login", { login: login })
+                .andWhere("users.password = :password", { password: pass })
+                .getOne();
+        }
+        catch (e) {
+            throw new Error("Username or password incorrect.");
+        }
     }
 };
 UsersService = __decorate([
