@@ -16,6 +16,7 @@ const path_1 = require("path");
 const users_module_1 = require("../users/users.module");
 const typeorm_1 = require("@nestjs/typeorm");
 const environment_1 = require("../config/environment");
+const auth_module_1 = require("../auth/auth.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -23,7 +24,8 @@ AppModule = __decorate([
         imports: [
             graphql_1.GraphQLModule.forRoot({
                 autoSchemaFile: (0, path_1.join)(process.cwd(), 'src/schema.gql'),
-                sortSchema: true
+                sortSchema: true,
+                context: ({ req }) => ({ headers: req.headers })
             }),
             typeorm_1.TypeOrmModule.forRoot({
                 type: 'postgres',
@@ -35,7 +37,8 @@ AppModule = __decorate([
                 entities: ['dist/**/*.entity{.ts,.js}'],
                 synchronize: true,
             }),
-            users_module_1.UsersModule
+            users_module_1.UsersModule,
+            auth_module_1.AuthModule
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

@@ -11,5 +11,5 @@ export declare class UsersService implements IService<User, CreateUserInput> {
     update(id: string, createUserInput: CreateUserInput): Promise<User | null>;
     createOrEdit(data: CreateUserInput): Promise<User | null>;
     delete(ids: Array<string>): Promise<boolean | null>;
-    login(login: string, password: string): Promise<User | undefined>;
+    findOneUser(login: string): Promise<User | undefined>;
 }

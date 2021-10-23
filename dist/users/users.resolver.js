@@ -17,6 +17,8 @@ const graphql_1 = require("@nestjs/graphql");
 const users_service_1 = require("./users.service");
 const user_entity_1 = require("./user.entity");
 const create_user_input_1 = require("./dto/create-user.input");
+const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
+const common_1 = require("@nestjs/common");
 let UsersResolver = class UsersResolver {
     constructor(usersService) {
         this.usersService = usersService;
@@ -35,12 +37,14 @@ let UsersResolver = class UsersResolver {
     }
 };
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, graphql_1.Query)(returns => [user_entity_1.User]),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], UsersResolver.prototype, "findAllUser", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, graphql_1.Query)(returns => user_entity_1.User),
     __param(0, (0, graphql_1.Args)("id")),
     __metadata("design:type", Function),
@@ -55,6 +59,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UsersResolver.prototype, "createOrEditUser", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, graphql_1.Mutation)(returns => Boolean),
     __param(0, (0, graphql_1.Args)({ name: "userIds", type: () => [graphql_1.ID] })),
     __metadata("design:type", Function),

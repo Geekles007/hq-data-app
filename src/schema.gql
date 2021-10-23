@@ -2,6 +2,10 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Connected {
+  access_token: String!
+}
+
 input CreateUserInput {
   createdAt: String = ""
   email: String = ""
@@ -21,6 +25,7 @@ scalar DateTime
 type Mutation {
   createOrEditUser(createUserInput: CreateUserInput!): User!
   deleteUsers(userIds: [ID!]!): Boolean!
+  signIn(login: String!, password: String!): Connected!
 }
 
 type Query {

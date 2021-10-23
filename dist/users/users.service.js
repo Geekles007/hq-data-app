@@ -56,7 +56,6 @@ let UsersService = class UsersService {
         else {
             throw new Error("Something went wrong.");
         }
-        return null;
     }
     async createOrEdit(data) {
         const exists = await this.usersRepository.createQueryBuilder("users")
@@ -72,7 +71,6 @@ let UsersService = class UsersService {
         else {
             throw new Error("This user already exists!");
         }
-        return null;
     }
     async delete(ids) {
         var _a;
@@ -91,14 +89,11 @@ let UsersService = class UsersService {
         }
         return null;
     }
-    async login(login, password) {
-        const pass = bcrypt_1.default.hash(password, 12);
+    async findOneUser(login) {
         try {
             return await this.usersRepository.createQueryBuilder("users")
                 .where("users.username = :login", { login: login })
-                .orWhere("users.username = :login", { login: login })
-                .andWhere("users.password = :password", { password: pass })
-                .getOne();
+                .orWhere("users.email = :login", { login: login }).getOne();
         }
         catch (e) {
             throw new Error("Username or password incorrect.");

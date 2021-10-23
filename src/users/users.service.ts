@@ -54,7 +54,6 @@ export class UsersService implements IService<User, CreateUserInput> {
         } else {
             throw new Error("Something went wrong.");
         }
-        return null;
     }
 
     async createOrEdit(data: CreateUserInput): Promise<User | null> {
@@ -69,8 +68,6 @@ export class UsersService implements IService<User, CreateUserInput> {
         } else {
             throw new Error("This user already exists!");
         }
-
-        return null;
     }
 
     async delete(ids: Array<string>): Promise<boolean | null> {
@@ -89,14 +86,11 @@ export class UsersService implements IService<User, CreateUserInput> {
         return null;
     }
 
-    async login(login: string, password: string): Promise<User | undefined> {
-        const pass = bcrypt.hash(password, 12);
+    async findOneUser(login: string): Promise<User | undefined> {
         try {
             return await this.usersRepository.createQueryBuilder("users")
                 .where("users.username = :login", {login: login})
-                .orWhere("users.username = :login", {login: login})
-                .andWhere("users.password = :password", {password: pass})
-                .getOne();
+                .orWhere("users.email = :login", {login: login}).getOne();
         } catch(e: any) {
             throw new Error("Username or password incorrect.")
         }
