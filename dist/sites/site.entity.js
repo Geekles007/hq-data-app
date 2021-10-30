@@ -17,6 +17,8 @@ const user_entity_1 = require("../users/user.entity");
 const region_entity_1 = require("../regions/region.entity");
 const place_entity_1 = require("../places/place.entity");
 const generator_entity_1 = require("../generators/generator.entity");
+const group_entity_1 = require("../groups/group.entity");
+const borehole_entity_1 = require("../boreholes/borehole.entity");
 let Site = class Site extends base_entity_1.BaseEntity {
     constructor() {
         super(...arguments);
@@ -66,6 +68,14 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => generator_entity_1.Generator, (generator) => generator.site),
     __metadata("design:type", Array)
 ], Site.prototype, "generators", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => group_entity_1.Group, (group) => group.site),
+    __metadata("design:type", Array)
+], Site.prototype, "groups", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => borehole_entity_1.Borehole, (borehole) => borehole.site),
+    __metadata("design:type", Array)
+], Site.prototype, "boreholes", void 0);
 Site = __decorate([
     (0, typeorm_1.Entity)("sites"),
     (0, graphql_1.ObjectType)()

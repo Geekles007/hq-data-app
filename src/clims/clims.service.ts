@@ -92,6 +92,9 @@ export class ClimsService implements BaseService<Clim, CreateClimInput> {
         });
         if(clim) {
             clim.updatedBy = connected;
+            clim.reference = data.reference && data.reference !== "" ? data.reference : clim?.reference;
+            clim.state = data.etat ? data.etat : clim?.state;
+            clim.power = data.power ? data.power : clim?.power;
             clim.reference = data.reference;
             clim.place = place;
             clim.atelier = atelier;

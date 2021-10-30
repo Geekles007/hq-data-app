@@ -24,6 +24,8 @@ const sites_module_1 = require("../sites/sites.module");
 const places_module_1 = require("../places/places.module");
 const clims_module_1 = require("../clims/clims.module");
 const generators_module_1 = require("../generators/generators.module");
+const groups_module_1 = require("../groups/groups.module");
+const boreholes_module_1 = require("../boreholes/boreholes.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -52,7 +54,9 @@ AppModule = __decorate([
             sites_module_1.SitesModule,
             places_module_1.PlacesModule,
             clims_module_1.ClimsModule,
-            generators_module_1.GeneratorsModule
+            generators_module_1.GeneratorsModule,
+            groups_module_1.GroupsModule,
+            boreholes_module_1.BoreholesModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

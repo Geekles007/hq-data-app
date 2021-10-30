@@ -80,7 +80,7 @@ export class PlacesService implements BaseService<Place, CreatePlaceInput> {
         });
         if(place) {
             place.updatedBy = connected;
-            place.name = data.name;
+            place.name = data.name && data?.name !== "" ? data?.name : place?.name;
             place.site = site;
             place.updatedAt = new Date(DateTime.now().toUTC().toISO());
             return await this.placesRepository.save(place);

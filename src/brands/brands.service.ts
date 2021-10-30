@@ -74,7 +74,7 @@ export class BrandsService implements BaseService<Brand, CreateBrandInput> {
         });
         if(brand) {
             brand.updatedBy = connected;
-            brand.name = data.name;
+            brand.name = data.name && data?.name !== "" ? data?.name : brand.name;
             brand.updatedAt = new Date(DateTime.now().toUTC().toISO());
             return await this.brandsRepository.save(brand);
         } else {

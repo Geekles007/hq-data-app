@@ -8,6 +8,6 @@ export class CreatePlaceInput {
     @Field()
     name: string = "";
 
-    @Field()
+    @Field({nullable: true})
     siteId?: string;
 }

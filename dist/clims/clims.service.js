@@ -89,6 +89,9 @@ let ClimsService = class ClimsService {
         });
         if (clim) {
             clim.updatedBy = connected;
+            clim.reference = data.reference && data.reference !== "" ? data.reference : clim === null || clim === void 0 ? void 0 : clim.reference;
+            clim.state = data.etat ? data.etat : clim === null || clim === void 0 ? void 0 : clim.state;
+            clim.power = data.power ? data.power : clim === null || clim === void 0 ? void 0 : clim.power;
             clim.reference = data.reference;
             clim.place = place;
             clim.atelier = atelier;

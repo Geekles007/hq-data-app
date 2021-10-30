@@ -17,6 +17,8 @@ import {Site} from "../sites/site.entity";
 import {Place} from "../places/place.entity";
 import {Clim} from "../clims/clim.entity";
 import {Generator} from "../generators/generator.entity";
+import {Group} from "../groups/group.entity";
+import {Borehole} from "../boreholes/borehole.entity";
 
 @Entity("users")
 @ObjectType()
@@ -83,6 +85,18 @@ export class User extends BaseEntity{
 
     @OneToMany(() => Generator, (generator: Generator) => generator.createdBy)
     updatedGenerators!: Generator[];
+
+    @OneToMany(() => Group, (group: Group) => group.createdBy)
+    createdGroups!: Group[];
+
+    @OneToMany(() => Group, (group: Group) => group.createdBy)
+    updatedGroups!: Group[];
+
+    @OneToMany(() => Borehole, (borehole: Borehole) => borehole.createdBy)
+    createdBoreholes!: Borehole[];
+
+    @OneToMany(() => Borehole, (borehole: Borehole) => borehole.createdBy)
+    updatedBoreholes!: Borehole[];
 
     @Column({type: "text"})
     @Field({nullable: true})

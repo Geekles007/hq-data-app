@@ -14,6 +14,7 @@ const graphql_1 = require("@nestjs/graphql");
 const clim_entity_1 = require("../clim.entity");
 let CreateClimInput = class CreateClimInput {
     constructor() {
+        this.etat = clim_entity_1.Etat.n;
         this.reference = "";
         this.power = 0;
     }

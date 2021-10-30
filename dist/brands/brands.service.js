@@ -77,7 +77,7 @@ let BrandsService = class BrandsService {
         });
         if (brand) {
             brand.updatedBy = connected;
-            brand.name = data.name;
+            brand.name = data.name && (data === null || data === void 0 ? void 0 : data.name) !== "" ? data === null || data === void 0 ? void 0 : data.name : brand.name;
             brand.updatedAt = new Date(luxon_1.DateTime.now().toUTC().toISO());
             return await this.brandsRepository.save(brand);
         }

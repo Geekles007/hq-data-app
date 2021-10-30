@@ -80,7 +80,7 @@ export class SitesService implements BaseService<Site, CreateSiteInput> {
         });
         if(site) {
             site.updatedBy = connected;
-            site.name = data.name;
+            site.name = data.name && data?.name !== "" ? data?.name : site?.name;
             site.region = region;
             site.updatedAt = new Date(DateTime.now().toUTC().toISO());
             return await this.sitesRepository.save(site);

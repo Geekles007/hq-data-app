@@ -82,7 +82,7 @@ let PlacesService = class PlacesService {
         });
         if (place) {
             place.updatedBy = connected;
-            place.name = data.name;
+            place.name = data.name && (data === null || data === void 0 ? void 0 : data.name) !== "" ? data === null || data === void 0 ? void 0 : data.name : place === null || place === void 0 ? void 0 : place.name;
             place.site = site;
             place.updatedAt = new Date(luxon_1.DateTime.now().toUTC().toISO());
             return await this.placesRepository.save(place);

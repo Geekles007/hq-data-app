@@ -80,7 +80,8 @@ export class AteliersService implements BaseService<Atelier, CreateAtelierInput>
         });
         if(atelier) {
             atelier.updatedBy = connected;
-            atelier.name = data.name;
+            atelier.name = data.name && data?.name !== "" ? data?.name : atelier.name;
+            atelier.reference = data.reference && data?.reference !== "" ? data?.reference : atelier.reference;
             atelier.region = region;
             atelier.updatedAt = new Date(DateTime.now().toUTC().toISO());
             return await this.ateliersRepository.save(atelier);

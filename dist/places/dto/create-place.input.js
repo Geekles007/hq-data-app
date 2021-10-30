@@ -25,7 +25,7 @@ __decorate([
     __metadata("design:type", String)
 ], CreatePlaceInput.prototype, "name", void 0);
 __decorate([
-    (0, graphql_1.Field)(),
+    (0, graphql_1.Field)({ nullable: true }),
     __metadata("design:type", String)
 ], CreatePlaceInput.prototype, "siteId", void 0);
 CreatePlaceInput = __decorate([

@@ -86,11 +86,13 @@ let GeneratorsService = class GeneratorsService {
         });
         if (generator) {
             generator.updatedBy = connected;
-            generator.reference = data.reference;
+            generator.reference = data.reference && data.reference !== "" ? data.reference : generator === null || generator === void 0 ? void 0 : generator.reference;
+            generator.power = data.power ? data.power : generator === null || generator === void 0 ? void 0 : generator.power;
+            generator.state = data.state ? data.state : generator === null || generator === void 0 ? void 0 : generator.state;
             generator.brand = brand;
             generator.site = site;
-            generator.observation = data === null || data === void 0 ? void 0 : data.observation;
-            generator.numSeries = data === null || data === void 0 ? void 0 : data.numSeries;
+            generator.observation = (data === null || data === void 0 ? void 0 : data.observation) && (data === null || data === void 0 ? void 0 : data.observation) !== "" ? data === null || data === void 0 ? void 0 : data.observation : generator === null || generator === void 0 ? void 0 : generator.observation;
+            generator.numSeries = (data === null || data === void 0 ? void 0 : data.numSeries) && (data === null || data === void 0 ? void 0 : data.numSeries) !== "" ? data === null || data === void 0 ? void 0 : data.numSeries : generator === null || generator === void 0 ? void 0 : generator.numSeries;
             generator.updatedAt = new Date(luxon_1.DateTime.now().toUTC().toISO());
             return await this.generatorsRepository.save(generator);
         }

@@ -81,7 +81,7 @@ let SitesService = class SitesService {
         });
         if (site) {
             site.updatedBy = connected;
-            site.name = data.name;
+            site.name = data.name && (data === null || data === void 0 ? void 0 : data.name) !== "" ? data === null || data === void 0 ? void 0 : data.name : site === null || site === void 0 ? void 0 : site.name;
             site.region = region;
             site.updatedAt = new Date(luxon_1.DateTime.now().toUTC().toISO());
             return await this.sitesRepository.save(site);

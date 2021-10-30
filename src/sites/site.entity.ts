@@ -5,6 +5,8 @@ import {User} from "../users/user.entity";
 import {Region} from "../regions/region.entity";
 import {Place} from "../places/place.entity";
 import {Generator} from "../generators/generator.entity";
+import {Group} from "../groups/group.entity";
+import {Borehole} from "../boreholes/borehole.entity";
 
 @Entity("sites")
 @ObjectType()
@@ -44,5 +46,11 @@ export class Site extends BaseEntity {
 
     @OneToMany(() => Generator, (generator: Generator) => generator.site)
     generators!: Generator[];
+
+    @OneToMany(() => Group, (group: Group) => group.site)
+    groups!: Group[];
+
+    @OneToMany(() => Borehole, (borehole: Borehole) => borehole.site)
+    boreholes!: Borehole[];
 
 }

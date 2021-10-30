@@ -20,6 +20,8 @@ const site_entity_1 = require("../sites/site.entity");
 const place_entity_1 = require("../places/place.entity");
 const clim_entity_1 = require("../clims/clim.entity");
 const generator_entity_1 = require("../generators/generator.entity");
+const group_entity_1 = require("../groups/group.entity");
+const borehole_entity_1 = require("../boreholes/borehole.entity");
 let User = class User extends base_entity_1.BaseEntity {
     constructor() {
         super(...arguments);
@@ -112,6 +114,22 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => generator_entity_1.Generator, (generator) => generator.createdBy),
     __metadata("design:type", Array)
 ], User.prototype, "updatedGenerators", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => group_entity_1.Group, (group) => group.createdBy),
+    __metadata("design:type", Array)
+], User.prototype, "createdGroups", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => group_entity_1.Group, (group) => group.createdBy),
+    __metadata("design:type", Array)
+], User.prototype, "updatedGroups", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => borehole_entity_1.Borehole, (borehole) => borehole.createdBy),
+    __metadata("design:type", Array)
+], User.prototype, "createdBoreholes", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => borehole_entity_1.Borehole, (borehole) => borehole.createdBy),
+    __metadata("design:type", Array)
+], User.prototype, "updatedBoreholes", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "text" }),
     (0, graphql_1.Field)({ nullable: true }),

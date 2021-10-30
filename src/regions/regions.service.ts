@@ -74,7 +74,7 @@ export class RegionsService implements BaseService<Region, CreateRegionInput> {
         });
         if(region) {
             region.updatedBy = connected;
-            region.name = data.name;
+            region.name = data.name && data?.name !== "" ? data?.name : region?.name;
             region.updatedAt = new Date(DateTime.now().toUTC().toISO());
             return await this.regionsRepository.save(region);
         } else {

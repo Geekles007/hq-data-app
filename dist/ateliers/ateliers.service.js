@@ -81,7 +81,8 @@ let AteliersService = class AteliersService {
         });
         if (atelier) {
             atelier.updatedBy = connected;
-            atelier.name = data.name;
+            atelier.name = data.name && (data === null || data === void 0 ? void 0 : data.name) !== "" ? data === null || data === void 0 ? void 0 : data.name : atelier.name;
+            atelier.reference = data.reference && (data === null || data === void 0 ? void 0 : data.reference) !== "" ? data === null || data === void 0 ? void 0 : data.reference : atelier.reference;
             atelier.region = region;
             atelier.updatedAt = new Date(luxon_1.DateTime.now().toUTC().toISO());
             return await this.ateliersRepository.save(atelier);

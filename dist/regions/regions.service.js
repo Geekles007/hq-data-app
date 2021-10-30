@@ -77,7 +77,7 @@ let RegionsService = class RegionsService {
         });
         if (region) {
             region.updatedBy = connected;
-            region.name = data.name;
+            region.name = data.name && (data === null || data === void 0 ? void 0 : data.name) !== "" ? data === null || data === void 0 ? void 0 : data.name : region === null || region === void 0 ? void 0 : region.name;
             region.updatedAt = new Date(luxon_1.DateTime.now().toUTC().toISO());
             return await this.regionsRepository.save(region);
         }

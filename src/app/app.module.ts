@@ -4,9 +4,7 @@ import { AppService } from './app.service';
 import {GraphQLModule} from "@nestjs/graphql";
 import {join} from "path";
 import {UsersModule} from "../users/users.module";
-import {CommonModule} from "../common/common.module";
 import {TypeOrmModule} from "@nestjs/typeorm";
-import dotenv from 'dotenv';
 import {env} from "../config/environment";
 import {AuthModule} from "../auth/auth.module";
 import { RegionsModule } from 'src/regions/regions.module';
@@ -16,6 +14,8 @@ import {SitesModule} from "../sites/sites.module";
 import { PlacesModule } from 'src/places/places.module';
 import {ClimsModule} from "../clims/clims.module";
 import {GeneratorsModule} from "../generators/generators.module";
+import {GroupsModule} from "../groups/groups.module";
+import {BoreholesModule} from "../boreholes/boreholes.module";
 
 @Module({
     imports: [
@@ -42,7 +42,9 @@ import {GeneratorsModule} from "../generators/generators.module";
         SitesModule,
         PlacesModule,
         ClimsModule,
-        GeneratorsModule
+        GeneratorsModule,
+        GroupsModule,
+        BoreholesModule,
     ],
     controllers: [AppController],
     providers: [AppService],

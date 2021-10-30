@@ -88,11 +88,13 @@ export class GeneratorsService implements BaseService<Generator, CreateGenerator
         });
         if(generator) {
             generator.updatedBy = connected;
-            generator.reference = data.reference;
+            generator.reference = data.reference && data.reference !== "" ? data.reference : generator?.reference;
+            generator.power = data.power ? data.power : generator?.power;
+            generator.state = data.state ? data.state : generator?.state;
             generator.brand = brand;
             generator.site = site;
-            generator.observation = data?.observation;
-            generator.numSeries = data?.numSeries;
+            generator.observation = data?.observation && data?.observation !== "" ? data?.observation : generator?.observation;
+            generator.numSeries = data?.numSeries && data?.numSeries !== "" ? data?.numSeries : generator?.numSeries;
             generator.updatedAt = new Date(DateTime.now().toUTC().toISO());
             return await this.generatorsRepository.save(generator);
         } else {

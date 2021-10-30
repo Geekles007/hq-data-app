@@ -8,7 +8,7 @@ export class CreateClimInput {
     id?: string;
 
     @Field()
-    etat?: Etat;
+    etat: Etat = Etat.n;
 
     @Field()
     reference: string = "";

@@ -6,6 +6,8 @@ import { Site } from "../sites/site.entity";
 import { Place } from "../places/place.entity";
 import { Clim } from "../clims/clim.entity";
 import { Generator } from "../generators/generator.entity";
+import { Group } from "../groups/group.entity";
+import { Borehole } from "../boreholes/borehole.entity";
 export declare class User extends BaseEntity {
     firstname: string;
     lastname: string;
@@ -26,5 +28,9 @@ export declare class User extends BaseEntity {
     updatedClims: Clim[];
     createdGenerators: Generator[];
     updatedGenerators: Generator[];
+    createdGroups: Group[];
+    updatedGroups: Group[];
+    createdBoreholes: Borehole[];
+    updatedBoreholes: Borehole[];
     token: string;
 }
