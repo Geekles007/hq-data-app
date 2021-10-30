@@ -10,11 +10,16 @@ exports.RegionsModule = void 0;
 const common_1 = require("@nestjs/common");
 const regions_service_1 = require("./regions.service");
 const regions_resolver_1 = require("./regions.resolver");
+const typeorm_1 = require("@nestjs/typeorm");
+const region_entity_1 = require("./region.entity");
+const users_module_1 = require("../users/users.module");
 let RegionsModule = class RegionsModule {
 };
 RegionsModule = __decorate([
     (0, common_1.Module)({
-        providers: [regions_service_1.RegionsService, regions_resolver_1.RegionsResolver]
+        imports: [typeorm_1.TypeOrmModule.forFeature([region_entity_1.Region]), users_module_1.UsersModule],
+        providers: [regions_service_1.RegionsService, regions_resolver_1.RegionsResolver],
+        exports: [regions_service_1.RegionsService]
     })
 ], RegionsModule);
 exports.RegionsModule = RegionsModule;

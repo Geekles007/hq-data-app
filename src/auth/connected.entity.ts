@@ -5,4 +5,7 @@ import {Field, ID, ObjectType} from "@nestjs/graphql";
 export class Connected {
     @Field(Type => String)
     access_token: string = "";
+
+    @Field(Type => String)
+    email: string = "";
 }

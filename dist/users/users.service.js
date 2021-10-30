@@ -20,9 +20,13 @@ const common_1 = require("@nestjs/common");
 const user_entity_1 = require("./user.entity");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
+const create_user_input_1 = require("./dto/create-user.input");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const uuid_1 = require("uuid");
 const luxon_1 = require("luxon");
+const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
+const jwt_1 = require("@nestjs/jwt");
+const constants_1 = require("../auth/constants");
 let UsersService = class UsersService {
     constructor(usersRepository) {
         this.usersRepository = usersRepository;
@@ -37,11 +41,11 @@ let UsersService = class UsersService {
         }
     }
     async findOne(id) {
-        return this.usersRepository.findOneOrFail(id);
+        return await this.usersRepository.findOneOrFail(id);
     }
     async create(createUserInput) {
         try {
-            const newUser = this.usersRepository.create(Object.assign(Object.assign({ id: (0, uuid_1.v4)() }, createUserInput), { createdAt: luxon_1.DateTime.now().toUTC().toISO(), updatedAt: luxon_1.DateTime.now().toUTC().toISO(), password: await bcrypt_1.default.hash(createUserInput.password, 12) }));
+            const newUser = await this.usersRepository.create(Object.assign(Object.assign({ id: (0, uuid_1.v4)() }, createUserInput), { createdAt: luxon_1.DateTime.now().toUTC().toISO(), updatedAt: luxon_1.DateTime.now().toUTC().toISO(), password: await bcrypt_1.default.hash(createUserInput.password, 12) }));
             return this.usersRepository.save(newUser);
         }
         catch (error) {
@@ -59,17 +63,19 @@ let UsersService = class UsersService {
     }
     async createOrEdit(data) {
         const exists = await this.usersRepository.createQueryBuilder("users")
-            .where("users.email = :email", { email: data.email }).getOne();
-        if (!exists) {
-            if (data === null || data === void 0 ? void 0 : data.id) {
-                return this.update(data === null || data === void 0 ? void 0 : data.id, data);
-            }
-            else {
-                return this.create(data);
-            }
+            .where("users.email = :email", { email: data.email })
+            .orWhere("users.username = :username", { username: data.username })
+            .getOne();
+        if (data === null || data === void 0 ? void 0 : data.id) {
+            return this.update(data === null || data === void 0 ? void 0 : data.id, data);
         }
         else {
-            throw new Error("This user already exists!");
+            if (!exists) {
+                return this.create(data);
+            }
+            else {
+                throw new Error("This user already exists!");
+            }
         }
     }
     async delete(ids) {
@@ -89,6 +95,29 @@ let UsersService = class UsersService {
         }
         return null;
     }
+    async updateToken(connected, token) {
+        if (connected) {
+            return this.usersRepository.save(Object.assign(Object.assign({}, connected), { token: token, updatedAt: luxon_1.DateTime.now().toUTC().toISO() }));
+        }
+        else {
+            throw new Error("Something went wrong.");
+        }
+    }
+    async getConnectedId(token) {
+        var _a, _b;
+        const jwt = token.replace('Bearer ', '');
+        let connected;
+        const jwtService = new jwt_1.JwtService({
+            secret: (_a = constants_1.jwtConstants.secret) !== null && _a !== void 0 ? _a : ""
+        });
+        const decoded = await jwtService.decode(jwt, { json: true });
+        if (decoded) {
+            connected = await this.usersRepository.createQueryBuilder("users")
+                .where("users.email = :email", { email: (_b = decoded === null || decoded === void 0 ? void 0 : decoded.sub) !== null && _b !== void 0 ? _b : "" })
+                .getOne();
+        }
+        return connected;
+    }
     async findOneUser(login) {
         try {
             return await this.usersRepository.createQueryBuilder("users")
@@ -100,6 +129,48 @@ let UsersService = class UsersService {
         }
     }
 };
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], UsersService.prototype, "findAll", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UsersService.prototype, "findOne", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_user_input_1.CreateUserInput]),
+    __metadata("design:returntype", Promise)
+], UsersService.prototype, "create", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, create_user_input_1.CreateUserInput]),
+    __metadata("design:returntype", Promise)
+], UsersService.prototype, "update", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_user_input_1.CreateUserInput]),
+    __metadata("design:returntype", Promise)
+], UsersService.prototype, "createOrEdit", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Array]),
+    __metadata("design:returntype", Promise)
+], UsersService.prototype, "delete", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UsersService.prototype, "findOneUser", null);
 UsersService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.User)),

@@ -17,14 +17,18 @@ const graphql_1 = require("@nestjs/graphql");
 const user_entity_1 = require("../users/user.entity");
 const auth_service_1 = require("./auth.service");
 const connected_entity_1 = require("./connected.entity");
+const users_service_1 = require("../users/users.service");
 let AuthResolver = class AuthResolver {
-    constructor(authService) {
+    constructor(authService, usersService) {
         this.authService = authService;
+        this.usersService = usersService;
     }
     async signIn(login, password) {
         const user = await this.authService.validateUser(login, password);
         if (user) {
-            return this.authService.login(user);
+            const connected = await this.authService.login(user);
+            await this.usersService.updateToken(user, connected.access_token);
+            return connected;
         }
         throw new Error("Invalid credentials !");
     }
@@ -39,7 +43,7 @@ __decorate([
 ], AuthResolver.prototype, "signIn", null);
 AuthResolver = __decorate([
     (0, graphql_1.Resolver)((of) => user_entity_1.User),
-    __metadata("design:paramtypes", [auth_service_1.AuthService])
+    __metadata("design:paramtypes", [auth_service_1.AuthService, users_service_1.UsersService])
 ], AuthResolver);
 exports.AuthResolver = AuthResolver;
 //# sourceMappingURL=auth.resolver.js.map

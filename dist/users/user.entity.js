@@ -12,25 +12,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const graphql_1 = require("@nestjs/graphql");
 const typeorm_1 = require("typeorm");
-const luxon_1 = require("luxon");
-let User = class User {
+const base_entity_1 = require("../entities/base.entity");
+const region_entity_1 = require("../regions/region.entity");
+const atelier_entity_1 = require("../ateliers/atelier.entity");
+const brand_entity_1 = require("../brands/brand.entity");
+const site_entity_1 = require("../sites/site.entity");
+const place_entity_1 = require("../places/place.entity");
+const clim_entity_1 = require("../clims/clim.entity");
+const generator_entity_1 = require("../generators/generator.entity");
+let User = class User extends base_entity_1.BaseEntity {
     constructor() {
-        this.id = "";
+        super(...arguments);
         this.firstname = "";
         this.lastname = "";
         this.email = "";
         this.username = "";
         this.password = "";
-        this.createdAt = new Date();
-        this.updatedAt = new Date();
+        this.token = "";
     }
 };
-__decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)("uuid"),
-    (0, graphql_1.Field)(Type => graphql_1.ID),
-    (0, typeorm_1.Generated)("uuid"),
-    __metadata("design:type", String)
-], User.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "text", name: "firstname" }),
     (0, graphql_1.Field)({ nullable: false }),
@@ -57,17 +57,66 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true, default: luxon_1.DateTime.now().toUTC().toISO(), type: "timestamp" }),
-    (0, graphql_1.Field)({ nullable: true }),
-    (0, typeorm_1.CreateDateColumn)({ name: "created_at" }),
-    __metadata("design:type", Date)
-], User.prototype, "createdAt", void 0);
+    (0, typeorm_1.OneToMany)(() => region_entity_1.Region, (region) => region.createdBy),
+    __metadata("design:type", Array)
+], User.prototype, "createdRegions", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true, default: luxon_1.DateTime.now().toUTC().toISO(), type: "timestamp" }),
+    (0, typeorm_1.OneToMany)(() => region_entity_1.Region, (region) => region.createdBy),
+    __metadata("design:type", Array)
+], User.prototype, "updatedRegions", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => atelier_entity_1.Atelier, (atelier) => atelier.createdBy),
+    __metadata("design:type", Array)
+], User.prototype, "createdAteliers", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => atelier_entity_1.Atelier, (atelier) => atelier.createdBy),
+    __metadata("design:type", Array)
+], User.prototype, "updatedAteliers", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => brand_entity_1.Brand, (brand) => brand.createdBy),
+    __metadata("design:type", Array)
+], User.prototype, "createdBrands", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => brand_entity_1.Brand, (brand) => brand.createdBy),
+    __metadata("design:type", Array)
+], User.prototype, "updatedBrands", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => site_entity_1.Site, (site) => site.createdBy),
+    __metadata("design:type", Array)
+], User.prototype, "createdSites", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => site_entity_1.Site, (site) => site.createdBy),
+    __metadata("design:type", Array)
+], User.prototype, "updatedSites", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => place_entity_1.Place, (place) => place.createdBy),
+    __metadata("design:type", Array)
+], User.prototype, "createdPlaces", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => place_entity_1.Place, (place) => place.createdBy),
+    __metadata("design:type", Array)
+], User.prototype, "updatedPlaces", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => clim_entity_1.Clim, (clim) => clim.createdBy),
+    __metadata("design:type", Array)
+], User.prototype, "createdClims", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => clim_entity_1.Clim, (clim) => clim.createdBy),
+    __metadata("design:type", Array)
+], User.prototype, "updatedClims", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => generator_entity_1.Generator, (generator) => generator.createdBy),
+    __metadata("design:type", Array)
+], User.prototype, "createdGenerators", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => generator_entity_1.Generator, (generator) => generator.createdBy),
+    __metadata("design:type", Array)
+], User.prototype, "updatedGenerators", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "text" }),
     (0, graphql_1.Field)({ nullable: true }),
-    (0, typeorm_1.UpdateDateColumn)({ name: "updated_at" }),
-    __metadata("design:type", Date)
-], User.prototype, "updatedAt", void 0);
+    __metadata("design:type", String)
+], User.prototype, "token", void 0);
 User = __decorate([
     (0, typeorm_1.Entity)("users"),
     (0, graphql_1.ObjectType)()

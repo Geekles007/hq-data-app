@@ -9,6 +9,13 @@ import {TypeOrmModule} from "@nestjs/typeorm";
 import dotenv from 'dotenv';
 import {env} from "../config/environment";
 import {AuthModule} from "../auth/auth.module";
+import { RegionsModule } from 'src/regions/regions.module';
+import {AteliersModule} from "../ateliers/ateliers.module";
+import {BrandsModule} from "../brands/brands.module";
+import {SitesModule} from "../sites/sites.module";
+import { PlacesModule } from 'src/places/places.module';
+import {ClimsModule} from "../clims/clims.module";
+import {GeneratorsModule} from "../generators/generators.module";
 
 @Module({
     imports: [
@@ -28,7 +35,14 @@ import {AuthModule} from "../auth/auth.module";
             synchronize: true,
         }),
         UsersModule,
-        AuthModule
+        RegionsModule,
+        AuthModule,
+        AteliersModule,
+        BrandsModule,
+        SitesModule,
+        PlacesModule,
+        ClimsModule,
+        GeneratorsModule
     ],
     controllers: [AppController],
     providers: [AppService],

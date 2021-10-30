@@ -25,10 +25,11 @@ export class AuthService {
     async login(user: any): Promise<Connected> {
         const payload = {
             username: user.username,
-            sub: user.id
+            sub: user.email
         }
         return {
-            access_token: await this.jwtService.signAsync(payload)
+            access_token: await this.jwtService.signAsync(payload),
+            email: user?.email ?? ""
         }
     }
 

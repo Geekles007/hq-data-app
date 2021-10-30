@@ -6,6 +6,6 @@ export declare class UsersResolver {
     constructor(usersService: UsersService);
     findAllUser(): Promise<User[]>;
     findUserById(id: string): Promise<User>;
-    createOrEditUser(createUserInput: CreateUserInput): Promise<User | null>;
+    createOrEditUser(createUserInput: CreateUserInput, token?: string): Promise<User | null>;
     deleteUsers(userIds: Array<string>): Promise<boolean | null>;
 }

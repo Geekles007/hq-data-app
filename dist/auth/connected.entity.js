@@ -14,12 +14,17 @@ const graphql_1 = require("@nestjs/graphql");
 let Connected = class Connected {
     constructor() {
         this.access_token = "";
+        this.email = "";
     }
 };
 __decorate([
     (0, graphql_1.Field)(Type => String),
     __metadata("design:type", String)
 ], Connected.prototype, "access_token", void 0);
+__decorate([
+    (0, graphql_1.Field)(Type => String),
+    __metadata("design:type", String)
+], Connected.prototype, "email", void 0);
 Connected = __decorate([
     (0, graphql_1.ObjectType)()
 ], Connected);

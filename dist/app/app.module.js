@@ -17,6 +17,13 @@ const users_module_1 = require("../users/users.module");
 const typeorm_1 = require("@nestjs/typeorm");
 const environment_1 = require("../config/environment");
 const auth_module_1 = require("../auth/auth.module");
+const regions_module_1 = require("../regions/regions.module");
+const ateliers_module_1 = require("../ateliers/ateliers.module");
+const brands_module_1 = require("../brands/brands.module");
+const sites_module_1 = require("../sites/sites.module");
+const places_module_1 = require("../places/places.module");
+const clims_module_1 = require("../clims/clims.module");
+const generators_module_1 = require("../generators/generators.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -38,7 +45,14 @@ AppModule = __decorate([
                 synchronize: true,
             }),
             users_module_1.UsersModule,
-            auth_module_1.AuthModule
+            regions_module_1.RegionsModule,
+            auth_module_1.AuthModule,
+            ateliers_module_1.AteliersModule,
+            brands_module_1.BrandsModule,
+            sites_module_1.SitesModule,
+            places_module_1.PlacesModule,
+            clims_module_1.ClimsModule,
+            generators_module_1.GeneratorsModule
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

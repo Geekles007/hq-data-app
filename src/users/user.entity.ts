@@ -1,15 +1,26 @@
 import {Field, ID, ObjectType} from "@nestjs/graphql";
-import {Column, CreateDateColumn, Entity, Generated, PrimaryGeneratedColumn, UpdateDateColumn} from "typeorm";
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    Generated,
+    OneToMany,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn
+} from "typeorm";
 import {DateTime} from "luxon";
-import {v4 as uuidv4} from "uuid";
+import {BaseEntity} from "../entities/base.entity";
+import {Region} from "../regions/region.entity";
+import {Atelier} from "../ateliers/atelier.entity";
+import {Brand} from "../brands/brand.entity";
+import {Site} from "../sites/site.entity";
+import {Place} from "../places/place.entity";
+import {Clim} from "../clims/clim.entity";
+import {Generator} from "../generators/generator.entity";
 
 @Entity("users")
 @ObjectType()
-export class User {
-    @PrimaryGeneratedColumn("uuid")
-    @Field(Type => ID)
-    @Generated("uuid")
-    id: string = "";
+export class User extends BaseEntity{
 
     @Column({type: "text", name: "firstname"})
     @Field({nullable: false})
@@ -31,13 +42,50 @@ export class User {
     @Field({nullable: false})
     password: string = "";
 
-    @Column({nullable: true, default: DateTime.now().toUTC().toISO(), type: "timestamp"})
-    @Field({nullable: true})
-    @CreateDateColumn({name: "created_at"})
-    createdAt: Date = new Date();
+    @OneToMany(() => Region, (region: Region) => region.createdBy)
+    createdRegions!: Region[];
 
-    @Column({nullable: true, default: DateTime.now().toUTC().toISO(), type: "timestamp"})
+    @OneToMany(() => Region, (region: Region) => region.createdBy)
+    updatedRegions!: Region[];
+
+    @OneToMany(() => Atelier, (atelier: Atelier) => atelier.createdBy)
+    createdAteliers!: Atelier[];
+
+    @OneToMany(() => Atelier, (atelier: Atelier) => atelier.createdBy)
+    updatedAteliers!: Atelier[];
+
+    @OneToMany(() => Brand, (brand: Brand) => brand.createdBy)
+    createdBrands!: Brand[];
+
+    @OneToMany(() => Brand, (brand: Brand) => brand.createdBy)
+    updatedBrands!: Brand[];
+
+    @OneToMany(() => Site, (site: Site) => site.createdBy)
+    createdSites!: Site[];
+
+    @OneToMany(() => Site, (site: Site) => site.createdBy)
+    updatedSites!: Site[];
+
+    @OneToMany(() => Place, (place: Place) => place.createdBy)
+    createdPlaces!: Place[];
+
+    @OneToMany(() => Place, (place: Place) => place.createdBy)
+    updatedPlaces!: Place[];
+
+    @OneToMany(() => Clim, (clim: Clim) => clim.createdBy)
+    createdClims!: Clim[];
+
+    @OneToMany(() => Clim, (clim: Clim) => clim.createdBy)
+    updatedClims!: Clim[];
+
+    @OneToMany(() => Generator, (generator: Generator) => generator.createdBy)
+    createdGenerators!: Generator[];
+
+    @OneToMany(() => Generator, (generator: Generator) => generator.createdBy)
+    updatedGenerators!: Generator[];
+
+    @Column({type: "text"})
     @Field({nullable: true})
-    @UpdateDateColumn({name: "updated_at"})
-    updatedAt: Date = new Date();
+    token: string = "";
+
 }

@@ -42,12 +42,14 @@ let AuthService = class AuthService {
         return null;
     }
     async login(user) {
+        var _a;
         const payload = {
             username: user.username,
-            sub: user.id
+            sub: user.email
         };
         return {
-            access_token: await this.jwtService.signAsync(payload)
+            access_token: await this.jwtService.signAsync(payload),
+            email: (_a = user === null || user === void 0 ? void 0 : user.email) !== null && _a !== void 0 ? _a : ""
         };
     }
     async checkToken(token) {

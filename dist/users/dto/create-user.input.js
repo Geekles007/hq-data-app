@@ -18,8 +18,6 @@ let CreateUserInput = class CreateUserInput {
         this.email = "";
         this.username = "";
         this.password = "";
-        this.createdAt = "";
-        this.updatedAt = "";
     }
 };
 __decorate([
@@ -46,14 +44,6 @@ __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
 ], CreateUserInput.prototype, "password", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    __metadata("design:type", String)
-], CreateUserInput.prototype, "createdAt", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    __metadata("design:type", String)
-], CreateUserInput.prototype, "updatedAt", void 0);
 CreateUserInput = __decorate([
     (0, graphql_1.InputType)()
 ], CreateUserInput);

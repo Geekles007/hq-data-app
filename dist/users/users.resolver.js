@@ -19,6 +19,7 @@ const user_entity_1 = require("./user.entity");
 const create_user_input_1 = require("./dto/create-user.input");
 const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
 const common_1 = require("@nestjs/common");
+const token_decorator_1 = require("../decorators/token.decorator");
 let UsersResolver = class UsersResolver {
     constructor(usersService) {
         this.usersService = usersService;
@@ -29,7 +30,7 @@ let UsersResolver = class UsersResolver {
     findUserById(id) {
         return this.usersService.findOne(id);
     }
-    createOrEditUser(createUserInput) {
+    createOrEditUser(createUserInput, token) {
         return this.usersService.createOrEdit(createUserInput);
     }
     deleteUsers(userIds) {
@@ -54,8 +55,9 @@ __decorate([
 __decorate([
     (0, graphql_1.Mutation)(returns => user_entity_1.User),
     __param(0, (0, graphql_1.Args)('createUserInput')),
+    __param(1, (0, token_decorator_1.TokenReq)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_user_input_1.CreateUserInput]),
+    __metadata("design:paramtypes", [create_user_input_1.CreateUserInput, String]),
     __metadata("design:returntype", Promise)
 ], UsersResolver.prototype, "createOrEditUser", null);
 __decorate([

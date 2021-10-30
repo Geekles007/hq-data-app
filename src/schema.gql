@@ -2,18 +2,102 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Atelier {
+  createdAt: DateTime
+  createdBy: User!
+  id: ID!
+  name: String!
+  reference: String!
+  region: Region!
+  updatedAt: DateTime
+  updatedBy: User!
+}
+
+type Brand {
+  createdAt: DateTime
+  createdBy: User!
+  id: ID!
+  name: String!
+  updatedAt: DateTime
+  updatedBy: User!
+}
+
+type Clim {
+  atelier: Atelier
+  brand: Brand
+  createdAt: DateTime
+  createdBy: User!
+  id: ID!
+  place: Place
+  power: Float!
+  reference: String!
+  state: Etat!
+  updatedAt: DateTime
+  updatedBy: User!
+}
+
 type Connected {
   access_token: String!
+  email: String!
+}
+
+input CreateAtelierInput {
+  id: String
+  name: String = ""
+  reference: String = ""
+  regionId: String!
+}
+
+input CreateBrandInput {
+  id: String
+  name: String = ""
+}
+
+input CreateClimInput {
+  atelierId: String
+  brandId: String
+  etat: String!
+  id: String
+  placeId: String
+  power: Float = 0
+  reference: String = ""
+}
+
+input CreateGeneratorInput {
+  brandId: String
+  id: String
+  numSeries: String = ""
+  observation: String = ""
+  power: Float = 0
+  reference: String = ""
+  siteId: String
+  state: String = "F"
+}
+
+input CreatePlaceInput {
+  id: String
+  name: String = ""
+  siteId: String!
+}
+
+input CreateRegionInput {
+  id: String
+  name: String = ""
+}
+
+input CreateSiteInput {
+  id: String
+  name: String = ""
+  reference: String = ""
+  regionId: String!
 }
 
 input CreateUserInput {
-  createdAt: String = ""
   email: String = ""
   firstname: String = ""
   id: String
   lastname: String = ""
   password: String = ""
-  updatedAt: String = ""
   username: String = ""
 }
 
@@ -22,15 +106,98 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+enum Etat {
+  n
+  o
+}
+
+type Generator {
+  brand: Brand
+  createdAt: DateTime
+  createdBy: User!
+  id: ID!
+  numSeries: String!
+  observation: String
+  power: Float
+  reference: String!
+  site: Site
+  state: State
+  updatedAt: DateTime
+  updatedBy: User!
+}
+
 type Mutation {
+  createOrEditAtelier(createAtelierInput: CreateAtelierInput!): Atelier!
+  createOrEditBrand(createBrandInput: CreateBrandInput!): Brand!
+  createOrEditClim(createClimInput: CreateClimInput!): Clim!
+  createOrEditGenerator(createGeneratorInput: CreateGeneratorInput!): Generator!
+  createOrEditPlace(createPlaceInput: CreatePlaceInput!): Place!
+  createOrEditRegion(createRegionInput: CreateRegionInput!): Region!
+  createOrEditSite(createSiteInput: CreateSiteInput!): Site!
   createOrEditUser(createUserInput: CreateUserInput!): User!
+  deleteAteliers(atelierIds: [ID!]!): Boolean!
+  deleteBrands(brandIds: [ID!]!): Boolean!
+  deleteClims(climIds: [ID!]!): Boolean!
+  deleteGenerators(generatorIds: [ID!]!): Boolean!
+  deletePlaces(placeIds: [ID!]!): Boolean!
+  deleteRegions(regionIds: [ID!]!): Boolean!
+  deleteSites(siteIds: [ID!]!): Boolean!
   deleteUsers(userIds: [ID!]!): Boolean!
   signIn(login: String!, password: String!): Connected!
 }
 
+type Place {
+  createdAt: DateTime
+  createdBy: User!
+  id: ID!
+  name: String!
+  site: Site!
+  updatedAt: DateTime
+  updatedBy: User!
+}
+
 type Query {
+  findAllAtelier(after: Float!, first: Float!): [Atelier!]!
+  findAllBrand(after: Float!, first: Float!): [Brand!]!
+  findAllClim(after: Float!, first: Float!): [Clim!]!
+  findAllGenerator(after: Float!, first: Float!): [Generator!]!
+  findAllPlace(after: Float!, first: Float!): [Place!]!
+  findAllRegion(after: Float!, first: Float!): [Region!]!
+  findAllSite(after: Float!, first: Float!): [Site!]!
   findAllUser: [User!]!
+  findAtelierById(id: String!): Atelier!
+  findBrandById(id: String!): Brand!
+  findClimById(id: String!): Clim!
+  findGeneratorById(id: String!): Generator!
+  findPlaceById(id: String!): Place!
+  findRegionById(id: String!): Region!
+  findSiteById(id: String!): Site!
   findUserById(id: String!): User!
+}
+
+type Region {
+  createdAt: DateTime
+  createdBy: User!
+  id: ID!
+  name: String!
+  updatedAt: DateTime
+  updatedBy: User!
+}
+
+type Site {
+  createdAt: DateTime
+  createdBy: User!
+  id: ID!
+  name: String!
+  reference: String!
+  region: Region!
+  updatedAt: DateTime
+  updatedBy: User!
+}
+
+enum State {
+  f
+  p
 }
 
 type User {
@@ -40,6 +207,7 @@ type User {
   id: ID!
   lastname: String!
   password: String!
+  token: String
   updatedAt: DateTime
   username: String!
 }

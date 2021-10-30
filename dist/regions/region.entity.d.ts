@@ -1,9 +1,11 @@
 import { User } from "../users/user.entity";
-export declare class Region {
-    id: string;
+import { BaseEntity } from "../entities/base.entity";
+import { Atelier } from "../ateliers/atelier.entity";
+import { Site } from "../sites/site.entity";
+export declare class Region extends BaseEntity {
     name: string;
-    created_at?: string;
-    updated_at?: string;
-    created_by?: User;
-    updated_by?: User;
+    createdBy?: User;
+    updatedBy?: User;
+    ateliers: Atelier[];
+    sites: Site[];
 }

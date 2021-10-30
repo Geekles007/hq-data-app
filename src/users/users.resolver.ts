@@ -2,10 +2,9 @@ import {Resolver, Query, Mutation, Args, ID} from '@nestjs/graphql';
 import {UsersService} from "./users.service";
 import {User} from "./user.entity";
 import {CreateUserInput} from "./dto/create-user.input";
-import {IConnection} from "../interfaces/IConnection";
-import {DeleteResult} from "typeorm";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
-import {UseGuards} from "@nestjs/common";
+import {Headers, Req, UseGuards} from "@nestjs/common";
+import {TokenReq} from "../decorators/token.decorator";
 
 @Resolver((of: any) => User)
 export class UsersResolver {
@@ -26,7 +25,7 @@ export class UsersResolver {
 
     // @UseGuards(JwtAuthGuard)
     @Mutation(returns => User)
-    createOrEditUser(@Args('createUserInput') createUserInput: CreateUserInput): Promise<User | null> {
+    createOrEditUser(@Args('createUserInput') createUserInput: CreateUserInput, @TokenReq() token?: string): Promise<User | null> {
         return this.usersService.createOrEdit(createUserInput);
     }
 

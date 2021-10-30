@@ -12,37 +12,47 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Region = void 0;
 const user_entity_1 = require("../users/user.entity");
 const graphql_1 = require("@nestjs/graphql");
-let Region = class Region {
+const typeorm_1 = require("typeorm");
+const base_entity_1 = require("../entities/base.entity");
+const atelier_entity_1 = require("../ateliers/atelier.entity");
+const site_entity_1 = require("../sites/site.entity");
+let Region = class Region extends base_entity_1.BaseEntity {
     constructor() {
-        this.id = "";
+        super(...arguments);
         this.name = "";
     }
 };
 __decorate([
-    (0, graphql_1.Field)(type => graphql_1.ID),
-    __metadata("design:type", String)
-], Region.prototype, "id", void 0);
-__decorate([
+    (0, typeorm_1.Column)({ type: "text", name: "name" }),
     (0, graphql_1.Field)({ nullable: false }),
     __metadata("design:type", String)
 ], Region.prototype, "name", void 0);
 __decorate([
-    (0, graphql_1.Field)({ nullable: true }),
-    __metadata("design:type", String)
-], Region.prototype, "created_at", void 0);
-__decorate([
-    (0, graphql_1.Field)({ nullable: true }),
-    __metadata("design:type", String)
-], Region.prototype, "updated_at", void 0);
-__decorate([
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.createdRegions, {
+        onDelete: "CASCADE"
+    }),
+    (0, typeorm_1.JoinColumn)({ name: "created_by" }),
     (0, graphql_1.Field)(type => user_entity_1.User),
     __metadata("design:type", user_entity_1.User)
-], Region.prototype, "created_by", void 0);
+], Region.prototype, "createdBy", void 0);
 __decorate([
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.updatedRegions, {
+        onDelete: "CASCADE"
+    }),
+    (0, typeorm_1.JoinColumn)({ name: "updated_by" }),
     (0, graphql_1.Field)(type => user_entity_1.User),
     __metadata("design:type", user_entity_1.User)
-], Region.prototype, "updated_by", void 0);
+], Region.prototype, "updatedBy", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => atelier_entity_1.Atelier, (atelier) => atelier.region),
+    __metadata("design:type", Array)
+], Region.prototype, "ateliers", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => site_entity_1.Site, (site) => site.region),
+    __metadata("design:type", Array)
+], Region.prototype, "sites", void 0);
 Region = __decorate([
+    (0, typeorm_1.Entity)("regions"),
     (0, graphql_1.ObjectType)()
 ], Region);
 exports.Region = Region;

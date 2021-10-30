@@ -19,10 +19,4 @@ export class CreateUserInput {
 
     @Field()
     password: string = "";
-
-    @Field()
-    createdAt: string = "";
-
-    @Field()
-    updatedAt: string = "";
 }
