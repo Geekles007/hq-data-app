@@ -59,13 +59,16 @@ let GeneratorsService = class GeneratorsService {
         return null;
     }
     async findAll(first, after) {
-        const generators = await this.generatorsRepository.find({
+        const [result, total] = await this.generatorsRepository.findAndCount({
             take: first,
             skip: after,
             relations: ["createdBy", "updatedBy", "site", "brand"],
         });
         try {
-            return generators;
+            return {
+                data: result,
+                count: total
+            };
         }
         catch (error) {
             throw new Error(error.message);

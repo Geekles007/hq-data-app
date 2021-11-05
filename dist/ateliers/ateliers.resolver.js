@@ -20,6 +20,7 @@ const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
 const atelier_entity_1 = require("../ateliers/atelier.entity");
 const create_atelier_input_1 = require("../ateliers/dto/create-atelier.input");
 const token_decorator_1 = require("../decorators/token.decorator");
+const PaginateAtelierResult_1 = require("./dto/PaginateAtelierResult");
 let AteliersResolver = class AteliersResolver {
     constructor(ateliersService) {
         this.ateliersService = ateliersService;
@@ -39,7 +40,7 @@ let AteliersResolver = class AteliersResolver {
 };
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, graphql_1.Query)(returns => [atelier_entity_1.Atelier]),
+    (0, graphql_1.Query)(returns => PaginateAtelierResult_1.PaginateAtelierResult),
     __param(0, (0, graphql_1.Args)('first')),
     __param(1, (0, graphql_1.Args)('after')),
     __metadata("design:type", Function),
@@ -57,7 +58,7 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, graphql_1.Mutation)(returns => atelier_entity_1.Atelier),
-    __param(0, (0, graphql_1.Args)('createAtelierInput')),
+    __param(0, (0, graphql_1.Args)('input')),
     __param(1, (0, token_decorator_1.TokenReq)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_atelier_input_1.CreateAtelierInput, String]),
@@ -66,7 +67,7 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, graphql_1.Mutation)(returns => Boolean),
-    __param(0, (0, graphql_1.Args)({ name: "atelierIds", type: () => [graphql_1.ID] })),
+    __param(0, (0, graphql_1.Args)({ name: "ids", type: () => [graphql_1.ID] })),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Array]),
     __metadata("design:returntype", Promise)

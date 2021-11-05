@@ -69,7 +69,7 @@ input CreateAtelierInput {
 
 input CreateBoreholeInput {
   cost: Float = 0
-  date: String = "2021-10-30T15:33:41.260+03:00"
+  date: String = "2021-11-05T15:47:35.529+03:00"
   debitCube: Float = 0
   debitCubeH: Float = 0
   depth: Float = 0
@@ -129,7 +129,7 @@ input CreateSiteInput {
   id: String
   name: String = ""
   reference: String = ""
-  regionId: String!
+  regionId: String
 }
 
 input CreateUserInput {
@@ -177,27 +177,77 @@ type Group {
 }
 
 type Mutation {
-  createOrEditAtelier(createAtelierInput: CreateAtelierInput!): Atelier!
-  createOrEditBorehole(createBoreholeInput: CreateBoreholeInput!): Borehole!
-  createOrEditBrand(createBrandInput: CreateBrandInput!): Brand!
-  createOrEditClim(createClimInput: CreateClimInput!): Clim!
-  createOrEditGenerator(createGeneratorInput: CreateGeneratorInput!): Generator!
-  createOrEditGroup(createGroupInput: CreateGroupInput!): Group!
-  createOrEditPlace(createPlaceInput: CreatePlaceInput!): Place!
-  createOrEditRegion(createRegionInput: CreateRegionInput!): Region!
-  createOrEditSite(createSiteInput: CreateSiteInput!): Site!
-  createOrEditUser(createUserInput: CreateUserInput!): User!
-  deleteAteliers(atelierIds: [ID!]!): Boolean!
-  deleteBoreholes(boreholeIds: [ID!]!): Boolean!
-  deleteBrands(brandIds: [ID!]!): Boolean!
-  deleteClims(climIds: [ID!]!): Boolean!
-  deleteGenerators(generatorIds: [ID!]!): Boolean!
-  deleteGroups(groupIds: [ID!]!): Boolean!
-  deletePlaces(placeIds: [ID!]!): Boolean!
-  deleteRegions(regionIds: [ID!]!): Boolean!
-  deleteSites(siteIds: [ID!]!): Boolean!
-  deleteUsers(userIds: [ID!]!): Boolean!
+  createOrEditAtelier(input: CreateAtelierInput!): Atelier!
+  createOrEditBorehole(input: CreateBoreholeInput!): Borehole!
+  createOrEditBrand(input: CreateBrandInput!): Brand!
+  createOrEditClim(input: CreateClimInput!): Clim!
+  createOrEditGenerator(input: CreateGeneratorInput!): Generator!
+  createOrEditGroup(input: CreateGroupInput!): Group!
+  createOrEditPlace(input: CreatePlaceInput!): Place!
+  createOrEditRegion(input: CreateRegionInput!): Region!
+  createOrEditSite(input: CreateSiteInput!): Site!
+  createOrEditUser(input: CreateUserInput!): User!
+  deleteAteliers(ids: [ID!]!): Boolean!
+  deleteBoreholes(ids: [ID!]!): Boolean!
+  deleteBrands(ids: [ID!]!): Boolean!
+  deleteClims(ids: [ID!]!): Boolean!
+  deleteGenerators(ids: [ID!]!): Boolean!
+  deleteGroups(ids: [ID!]!): Boolean!
+  deletePlaces(ids: [ID!]!): Boolean!
+  deleteRegions(ids: [ID!]!): Boolean!
+  deleteSites(ids: [ID!]!): Boolean!
+  deleteUsers(ids: [ID!]!): Boolean!
   signIn(login: String!, password: String!): Connected!
+}
+
+type PaginateAtelierResult {
+  count: Float!
+  data: [Atelier!]!
+}
+
+type PaginateBoreholeResult {
+  count: Float!
+  data: [Borehole!]!
+}
+
+type PaginateBrandResult {
+  count: Float!
+  data: [Brand!]!
+}
+
+type PaginateClimResult {
+  count: Float!
+  data: [Clim!]!
+}
+
+type PaginateGeneratorResult {
+  count: Float!
+  data: [Generator!]!
+}
+
+type PaginateGroupResult {
+  count: Float!
+  data: [Group!]!
+}
+
+type PaginatePlaceResult {
+  count: Float!
+  data: [Place!]!
+}
+
+type PaginateResult {
+  count: Float!
+  data: [Region!]!
+}
+
+type PaginateSiteResult {
+  count: Float!
+  data: [Site!]!
+}
+
+type PaginateUserResult {
+  count: Float!
+  data: [User!]!
 }
 
 type Place {
@@ -211,16 +261,16 @@ type Place {
 }
 
 type Query {
-  findAllAtelier(after: Float!, first: Float!): [Atelier!]!
-  findAllBorehole(after: Float!, first: Float!): [Borehole!]!
-  findAllBrand(after: Float!, first: Float!): [Brand!]!
-  findAllClim(after: Float!, first: Float!): [Clim!]!
-  findAllGenerator(after: Float!, first: Float!): [Generator!]!
-  findAllGroup(after: Float!, first: Float!): [Group!]!
-  findAllPlace(after: Float!, first: Float!): [Place!]!
-  findAllRegion(after: Float!, first: Float!): [Region!]!
-  findAllSite(after: Float!, first: Float!): [Site!]!
-  findAllUser: [User!]!
+  findAllAtelier(after: Float!, first: Float!): PaginateAtelierResult!
+  findAllBorehole(after: Float!, first: Float!): PaginateBoreholeResult!
+  findAllBrand(after: Float!, first: Float!): PaginateBrandResult!
+  findAllClim(after: Float!, first: Float!): PaginateClimResult!
+  findAllGenerator(after: Float!, first: Float!): PaginateGeneratorResult!
+  findAllGroup(after: Float!, first: Float!): PaginateGroupResult!
+  findAllPlace(after: Float!, first: Float!): PaginatePlaceResult!
+  findAllRegion(after: Float!, first: Float!): PaginateResult!
+  findAllSite(after: Float!, first: Float!): PaginateSiteResult!
+  findAllUser(after: Float!, first: Float!): PaginateUserResult!
   findAtelierById(id: String!): Atelier!
   findBoreholeById(id: String!): Borehole!
   findBrandById(id: String!): Brand!

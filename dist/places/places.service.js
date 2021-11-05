@@ -55,13 +55,16 @@ let PlacesService = class PlacesService {
         return null;
     }
     async findAll(first, after) {
-        const places = await this.placesRepository.find({
+        const [result, total] = await this.placesRepository.findAndCount({
             take: first,
             skip: after,
             relations: ["site", "createdBy", "updatedBy"]
         });
         try {
-            return places;
+            return {
+                data: result,
+                count: total
+            };
         }
         catch (error) {
             throw new Error(error.message);

@@ -61,13 +61,16 @@ let ClimsService = class ClimsService {
         return null;
     }
     async findAll(first, after) {
-        const clims = await this.climsRepository.find({
+        const [result, total] = await this.climsRepository.findAndCount({
             take: first,
             skip: after,
             relations: ["createdBy", "updatedBy", "place", "atelier", "brand"],
         });
         try {
-            return clims;
+            return {
+                data: result,
+                count: total
+            };
         }
         catch (error) {
             throw new Error(error.message);

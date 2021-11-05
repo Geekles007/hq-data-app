@@ -30,7 +30,7 @@ __decorate([
     __metadata("design:type", String)
 ], CreateSiteInput.prototype, "reference", void 0);
 __decorate([
-    (0, graphql_1.Field)(),
+    (0, graphql_1.Field)({ nullable: true }),
     __metadata("design:type", String)
 ], CreateSiteInput.prototype, "regionId", void 0);
 CreateSiteInput = __decorate([

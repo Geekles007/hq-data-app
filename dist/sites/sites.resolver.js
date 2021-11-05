@@ -20,6 +20,7 @@ const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
 const sites_service_1 = require("./sites.service");
 const common_1 = require("@nestjs/common");
 const create_site_input_1 = require("./dto/create-site.input");
+const PaginateSiteResult_1 = require("./dto/PaginateSiteResult");
 let SitesResolver = class SitesResolver {
     constructor(sitesService) {
         this.sitesService = sitesService;
@@ -39,7 +40,7 @@ let SitesResolver = class SitesResolver {
 };
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, graphql_1.Query)(returns => [site_entity_1.Site]),
+    (0, graphql_1.Query)(returns => PaginateSiteResult_1.PaginateSiteResult),
     __param(0, (0, graphql_1.Args)('first')),
     __param(1, (0, graphql_1.Args)('after')),
     __metadata("design:type", Function),
@@ -57,7 +58,7 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, graphql_1.Mutation)(returns => site_entity_1.Site),
-    __param(0, (0, graphql_1.Args)('createSiteInput')),
+    __param(0, (0, graphql_1.Args)('input')),
     __param(1, (0, token_decorator_1.TokenReq)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_site_input_1.CreateSiteInput, String]),
@@ -66,7 +67,7 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, graphql_1.Mutation)(returns => Boolean),
-    __param(0, (0, graphql_1.Args)({ name: "siteIds", type: () => [graphql_1.ID] })),
+    __param(0, (0, graphql_1.Args)({ name: "ids", type: () => [graphql_1.ID] })),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Array]),
     __metadata("design:returntype", Promise)

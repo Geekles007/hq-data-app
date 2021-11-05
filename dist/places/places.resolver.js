@@ -20,6 +20,7 @@ const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
 const place_entity_1 = require("../places/place.entity");
 const create_place_input_1 = require("../places/dto/create-place.input");
 const token_decorator_1 = require("../decorators/token.decorator");
+const PaginatePlaceResult_1 = require("./dto/PaginatePlaceResult");
 let PlacesResolver = class PlacesResolver {
     constructor(placesService) {
         this.placesService = placesService;
@@ -39,7 +40,7 @@ let PlacesResolver = class PlacesResolver {
 };
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, graphql_1.Query)(returns => [place_entity_1.Place]),
+    (0, graphql_1.Query)(returns => PaginatePlaceResult_1.PaginatePlaceResult),
     __param(0, (0, graphql_1.Args)('first')),
     __param(1, (0, graphql_1.Args)('after')),
     __metadata("design:type", Function),
@@ -57,7 +58,7 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, graphql_1.Mutation)(returns => place_entity_1.Place),
-    __param(0, (0, graphql_1.Args)('createPlaceInput')),
+    __param(0, (0, graphql_1.Args)('input')),
     __param(1, (0, token_decorator_1.TokenReq)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_place_input_1.CreatePlaceInput, String]),
@@ -66,7 +67,7 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, graphql_1.Mutation)(returns => Boolean),
-    __param(0, (0, graphql_1.Args)({ name: "placeIds", type: () => [graphql_1.ID] })),
+    __param(0, (0, graphql_1.Args)({ name: "ids", type: () => [graphql_1.ID] })),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Array]),
     __metadata("design:returntype", Promise)

@@ -5,6 +5,7 @@ import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {Atelier} from "../ateliers/atelier.entity";
 import {CreateAtelierInput} from "../ateliers/dto/create-atelier.input";
 import {TokenReq} from "../decorators/token.decorator";
+import {PaginateAtelierResult} from "./dto/PaginateAtelierResult";
 
 @Resolver()
 export class AteliersResolver {
@@ -12,8 +13,8 @@ export class AteliersResolver {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Query(returns => [Atelier])
-    findAllAtelier(@Args('first') first: number, @Args('after') after: number): Promise<Atelier[]> {
+    @Query(returns => PaginateAtelierResult)
+    findAllAtelier(@Args('first') first: number, @Args('after') after: number): Promise<PaginateAtelierResult> {
         return this.ateliersService.findAll(first, after);
     }
 
@@ -25,13 +26,13 @@ export class AteliersResolver {
 
     @UseGuards(JwtAuthGuard)
     @Mutation(returns => Atelier)
-    createOrEditAtelier(@Args('createAtelierInput') createAtelierInput: CreateAtelierInput, @TokenReq() token: string): Promise<Atelier | null> {
+    createOrEditAtelier(@Args('input') createAtelierInput: CreateAtelierInput, @TokenReq() token: string): Promise<Atelier | null> {
         return this.ateliersService.createOrEdit(createAtelierInput, token);
     }
 
     @UseGuards(JwtAuthGuard)
     @Mutation(returns => Boolean)
-    deleteAteliers(@Args({name: "atelierIds", type: () => [ID]}) atelierIds: Array<string>): Promise<boolean | null> {
+    deleteAteliers(@Args({name: "ids", type: () => [ID]}) atelierIds: Array<string>): Promise<boolean | null> {
         return this.ateliersService.delete(atelierIds);
     }
 }

@@ -55,13 +55,16 @@ let GroupsService = class GroupsService {
         return null;
     }
     async findAll(first, after) {
-        const groups = await this.groupsRepository.find({
+        const [result, total] = await this.groupsRepository.findAndCount({
             take: first,
             skip: after,
             relations: ["site", "createdBy", "updatedBy"]
         });
         try {
-            return groups;
+            return {
+                data: result,
+                count: total
+            };
         }
         catch (error) {
             throw new Error(error.message);

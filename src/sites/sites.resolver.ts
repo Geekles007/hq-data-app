@@ -5,6 +5,7 @@ import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {SitesService} from "./sites.service";
 import {UseGuards} from "@nestjs/common";
 import {CreateSiteInput} from "./dto/create-site.input";
+import {PaginateSiteResult} from "./dto/PaginateSiteResult";
 
 @Resolver()
 export class SitesResolver {
@@ -12,8 +13,8 @@ export class SitesResolver {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Query(returns => [Site])
-    findAllSite(@Args('first') first: number, @Args('after') after: number): Promise<Site[]> {
+    @Query(returns => PaginateSiteResult)
+    findAllSite(@Args('first') first: number, @Args('after') after: number): Promise<PaginateSiteResult> {
         return this.sitesService.findAll(first, after);
     }
 
@@ -25,13 +26,13 @@ export class SitesResolver {
 
     @UseGuards(JwtAuthGuard)
     @Mutation(returns => Site)
-    createOrEditSite(@Args('createSiteInput') createSiteInput: CreateSiteInput, @TokenReq() token: string): Promise<Site | null> {
+    createOrEditSite(@Args('input') createSiteInput: CreateSiteInput, @TokenReq() token: string): Promise<Site | null> {
         return this.sitesService.createOrEdit(createSiteInput, token);
     }
 
     @UseGuards(JwtAuthGuard)
     @Mutation(returns => Boolean)
-    deleteSites(@Args({name: "siteIds", type: () => [ID]}) siteIds: Array<string>): Promise<boolean | null> {
+    deleteSites(@Args({name: "ids", type: () => [ID]}) siteIds: Array<string>): Promise<boolean | null> {
         return this.sitesService.delete(siteIds);
     }
 }

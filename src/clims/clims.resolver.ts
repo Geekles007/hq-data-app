@@ -5,6 +5,7 @@ import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {Clim} from "./clim.entity";
 import {CreateClimInput} from "./dto/create-clim.input";
 import {TokenReq} from "../decorators/token.decorator";
+import {PaginateClimResult} from "./dto/PaginateClimResult";
 
 @Resolver()
 export class ClimsResolver {
@@ -12,8 +13,8 @@ export class ClimsResolver {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Query(returns => [Clim])
-    findAllClim(@Args('first') first: number, @Args('after') after: number): Promise<Clim[]> {
+    @Query(returns => PaginateClimResult)
+    findAllClim(@Args('first') first: number, @Args('after') after: number): Promise<PaginateClimResult> {
         return this.climsService.findAll(first, after);
     }
 
@@ -25,13 +26,13 @@ export class ClimsResolver {
 
     @UseGuards(JwtAuthGuard)
     @Mutation(returns => Clim)
-    createOrEditClim(@Args('createClimInput') createClimInput: CreateClimInput, @TokenReq() token: string): Promise<Clim | null> {
+    createOrEditClim(@Args('input') createClimInput: CreateClimInput, @TokenReq() token: string): Promise<Clim | null> {
         return this.climsService.createOrEdit(createClimInput, token);
     }
 
     @UseGuards(JwtAuthGuard)
     @Mutation(returns => Boolean)
-    deleteClims(@Args({name: "climIds", type: () => [ID]}) climIds: Array<string>): Promise<boolean | null> {
+    deleteClims(@Args({name: "ids", type: () => [ID]}) climIds: Array<string>): Promise<boolean | null> {
         return this.climsService.delete(climIds);
     }
 }

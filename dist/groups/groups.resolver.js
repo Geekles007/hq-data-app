@@ -20,6 +20,7 @@ const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
 const group_entity_1 = require("../groups/group.entity");
 const create_group_input_1 = require("../groups/dto/create-group.input");
 const token_decorator_1 = require("../decorators/token.decorator");
+const PaginateGroupResult_1 = require("./dto/PaginateGroupResult");
 let GroupsResolver = class GroupsResolver {
     constructor(groupsService) {
         this.groupsService = groupsService;
@@ -39,7 +40,7 @@ let GroupsResolver = class GroupsResolver {
 };
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, graphql_1.Query)(returns => [group_entity_1.Group]),
+    (0, graphql_1.Query)(returns => PaginateGroupResult_1.PaginateGroupResult),
     __param(0, (0, graphql_1.Args)('first')),
     __param(1, (0, graphql_1.Args)('after')),
     __metadata("design:type", Function),
@@ -57,7 +58,7 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, graphql_1.Mutation)(returns => group_entity_1.Group),
-    __param(0, (0, graphql_1.Args)('createGroupInput')),
+    __param(0, (0, graphql_1.Args)('input')),
     __param(1, (0, token_decorator_1.TokenReq)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_group_input_1.CreateGroupInput, String]),
@@ -66,7 +67,7 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, graphql_1.Mutation)(returns => Boolean),
-    __param(0, (0, graphql_1.Args)({ name: "groupIds", type: () => [graphql_1.ID] })),
+    __param(0, (0, graphql_1.Args)({ name: "ids", type: () => [graphql_1.ID] })),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Array]),
     __metadata("design:returntype", Promise)

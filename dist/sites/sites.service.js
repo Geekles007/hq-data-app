@@ -55,13 +55,16 @@ let SitesService = class SitesService {
         return null;
     }
     async findAll(first, after) {
-        const sites = await this.sitesRepository.find({
+        const [result, total] = await this.sitesRepository.findAndCount({
             take: first,
             skip: after,
-            relations: ["region"]
+            relations: ["region", "createdBy", "updatedBy"],
         });
         try {
-            return sites;
+            return {
+                data: result,
+                count: total
+            };
         }
         catch (error) {
             throw new Error(error.message);
@@ -82,6 +85,7 @@ let SitesService = class SitesService {
         if (site) {
             site.updatedBy = connected;
             site.name = data.name && (data === null || data === void 0 ? void 0 : data.name) !== "" ? data === null || data === void 0 ? void 0 : data.name : site === null || site === void 0 ? void 0 : site.name;
+            site.reference = data.reference && (data === null || data === void 0 ? void 0 : data.reference) !== "" ? data === null || data === void 0 ? void 0 : data.reference : site === null || site === void 0 ? void 0 : site.reference;
             site.region = region;
             site.updatedAt = new Date(luxon_1.DateTime.now().toUTC().toISO());
             return await this.sitesRepository.save(site);

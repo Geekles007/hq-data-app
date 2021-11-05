@@ -20,6 +20,7 @@ const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
 const clim_entity_1 = require("./clim.entity");
 const create_clim_input_1 = require("./dto/create-clim.input");
 const token_decorator_1 = require("../decorators/token.decorator");
+const PaginateClimResult_1 = require("./dto/PaginateClimResult");
 let ClimsResolver = class ClimsResolver {
     constructor(climsService) {
         this.climsService = climsService;
@@ -39,7 +40,7 @@ let ClimsResolver = class ClimsResolver {
 };
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, graphql_1.Query)(returns => [clim_entity_1.Clim]),
+    (0, graphql_1.Query)(returns => PaginateClimResult_1.PaginateClimResult),
     __param(0, (0, graphql_1.Args)('first')),
     __param(1, (0, graphql_1.Args)('after')),
     __metadata("design:type", Function),
@@ -57,7 +58,7 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, graphql_1.Mutation)(returns => clim_entity_1.Clim),
-    __param(0, (0, graphql_1.Args)('createClimInput')),
+    __param(0, (0, graphql_1.Args)('input')),
     __param(1, (0, token_decorator_1.TokenReq)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_clim_input_1.CreateClimInput, String]),
@@ -66,7 +67,7 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, graphql_1.Mutation)(returns => Boolean),
-    __param(0, (0, graphql_1.Args)({ name: "climIds", type: () => [graphql_1.ID] })),
+    __param(0, (0, graphql_1.Args)({ name: "ids", type: () => [graphql_1.ID] })),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Array]),
     __metadata("design:returntype", Promise)

@@ -5,6 +5,7 @@ import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {UseGuards} from "@nestjs/common";
 import {Region} from "./region.entity";
 import {TokenReq} from "../decorators/token.decorator";
+import {PaginateResult} from "./dto/PaginateResult";
 
 @Resolver()
 export class RegionsResolver {
@@ -12,8 +13,8 @@ export class RegionsResolver {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Query(returns => [Region])
-    findAllRegion(@Args('first') first: number, @Args('after') after: number): Promise<Region[]> {
+    @Query(returns => PaginateResult)
+    findAllRegion(@Args('first') first: number, @Args('after') after?: number): Promise<PaginateResult> {
         return this.regionsService.findAll(first, after);
     }
 
@@ -25,13 +26,13 @@ export class RegionsResolver {
 
     @UseGuards(JwtAuthGuard)
     @Mutation(returns => Region)
-    createOrEditRegion(@Args('createRegionInput') createRegionInput: CreateRegionInput, @TokenReq() token: string): Promise<Region | null> {
+    createOrEditRegion(@Args('input') createRegionInput: CreateRegionInput, @TokenReq() token: string): Promise<Region | null> {
         return this.regionsService.createOrEdit(createRegionInput, token);
     }
 
     @UseGuards(JwtAuthGuard)
     @Mutation(returns => Boolean)
-    deleteRegions(@Args({name: "regionIds", type: () => [ID]}) regionIds: Array<string>): Promise<boolean | null> {
+    deleteRegions(@Args({name: "ids", type: () => [ID]}) regionIds: Array<string>): Promise<boolean | null> {
         return this.regionsService.delete(regionIds);
     }
 }

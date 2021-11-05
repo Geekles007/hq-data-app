@@ -52,13 +52,16 @@ let BrandsService = class BrandsService {
         return null;
     }
     async findAll(first, after) {
-        const brands = await this.brandsRepository.find({
+        const [result, total] = await this.brandsRepository.findAndCount({
             take: first,
             skip: after,
             relations: ["createdBy", "updatedBy"]
         });
         try {
-            return brands;
+            return {
+                data: result,
+                count: total
+            };
         }
         catch (error) {
             throw new Error(error.message);

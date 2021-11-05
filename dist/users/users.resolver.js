@@ -20,12 +20,13 @@ const create_user_input_1 = require("./dto/create-user.input");
 const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
 const common_1 = require("@nestjs/common");
 const token_decorator_1 = require("../decorators/token.decorator");
+const PaginateSiteResult_1 = require("./dto/PaginateSiteResult");
 let UsersResolver = class UsersResolver {
     constructor(usersService) {
         this.usersService = usersService;
     }
-    findAllUser() {
-        return this.usersService.findAll();
+    findAllUser(first, after) {
+        return this.usersService.findAll(first, after);
     }
     findUserById(id) {
         return this.usersService.findOne(id);
@@ -39,9 +40,11 @@ let UsersResolver = class UsersResolver {
 };
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, graphql_1.Query)(returns => [user_entity_1.User]),
+    (0, graphql_1.Query)(returns => PaginateSiteResult_1.PaginateUserResult),
+    __param(0, (0, graphql_1.Args)('first')),
+    __param(1, (0, graphql_1.Args)('after')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Number, Number]),
     __metadata("design:returntype", Promise)
 ], UsersResolver.prototype, "findAllUser", null);
 __decorate([
@@ -54,7 +57,7 @@ __decorate([
 ], UsersResolver.prototype, "findUserById", null);
 __decorate([
     (0, graphql_1.Mutation)(returns => user_entity_1.User),
-    __param(0, (0, graphql_1.Args)('createUserInput')),
+    __param(0, (0, graphql_1.Args)('input')),
     __param(1, (0, token_decorator_1.TokenReq)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_user_input_1.CreateUserInput, String]),
@@ -63,7 +66,7 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, graphql_1.Mutation)(returns => Boolean),
-    __param(0, (0, graphql_1.Args)({ name: "userIds", type: () => [graphql_1.ID] })),
+    __param(0, (0, graphql_1.Args)({ name: "ids", type: () => [graphql_1.ID] })),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Array]),
     __metadata("design:returntype", Promise)

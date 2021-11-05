@@ -8,6 +8,7 @@ import {UsersService} from "../users/users.service";
 import {User} from "../users/user.entity";
 import {InjectRepository} from "@nestjs/typeorm";
 import {CreateBrandInput} from "./dto/create-brand.input";
+import {PaginateBrandResult} from "./dto/PaginateBrandResult";
 
 @Injectable()
 export class BrandsService implements BaseService<Brand, CreateBrandInput> {
@@ -48,14 +49,17 @@ export class BrandsService implements BaseService<Brand, CreateBrandInput> {
         return null;
     }
 
-    async findAll(first: number, after?: number): Promise<Brand[]> {
-        const brands: Brand[] = await this.brandsRepository.find({
+    async findAll(first: number, after?: number): Promise<PaginateBrandResult> {
+        const [result, total] = await this.brandsRepository.findAndCount({
             take: first,
             skip: after,
             relations: ["createdBy", "updatedBy"]
         });
         try {
-            return brands;
+            return {
+                data: result,
+                count: total
+            };
         } catch(error: any) {
             throw new Error(error.message) ;
         }

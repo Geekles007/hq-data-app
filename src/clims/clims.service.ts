@@ -14,6 +14,7 @@ import {AteliersService} from "../ateliers/ateliers.service";
 import {Atelier} from "../ateliers/atelier.entity";
 import {PlacesService} from "../places/places.service";
 import {Place} from "../places/place.entity";
+import {PaginateClimResult} from "./dto/PaginateClimResult";
 
 @Injectable()
 export class ClimsService implements BaseService<Clim, CreateClimInput> {
@@ -63,14 +64,17 @@ export class ClimsService implements BaseService<Clim, CreateClimInput> {
         return null;
     }
 
-    async findAll(first: number, after?: number): Promise<Clim[]> {
-        const clims: Clim[] = await this.climsRepository.find({
+    async findAll(first: number, after?: number): Promise<PaginateClimResult> {
+        const [result, total] = await this.climsRepository.findAndCount({
             take: first,
             skip: after,
             relations: ["createdBy", "updatedBy", "place", "atelier", "brand"],
         });
         try {
-            return clims;
+            return {
+                data: result,
+                count: total
+            };
         } catch(error: any) {
             throw new Error(error.message) ;
         }

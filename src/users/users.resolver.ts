@@ -5,6 +5,7 @@ import {CreateUserInput} from "./dto/create-user.input";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {Headers, Req, UseGuards} from "@nestjs/common";
 import {TokenReq} from "../decorators/token.decorator";
+import {PaginateUserResult} from "./dto/PaginateSiteResult";
 
 @Resolver((of: any) => User)
 export class UsersResolver {
@@ -12,9 +13,9 @@ export class UsersResolver {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Query(returns => [User])
-    findAllUser(): Promise<User[]> {
-        return this.usersService.findAll();
+    @Query(returns => PaginateUserResult)
+    findAllUser(@Args('first') first: number, @Args('after') after: number): Promise<PaginateUserResult> {
+        return this.usersService.findAll(first, after);
     }
 
     @UseGuards(JwtAuthGuard)
@@ -25,13 +26,13 @@ export class UsersResolver {
 
     // @UseGuards(JwtAuthGuard)
     @Mutation(returns => User)
-    createOrEditUser(@Args('createUserInput') createUserInput: CreateUserInput, @TokenReq() token?: string): Promise<User | null> {
+    createOrEditUser(@Args('input') createUserInput: CreateUserInput, @TokenReq() token?: string): Promise<User | null> {
         return this.usersService.createOrEdit(createUserInput);
     }
 
     @UseGuards(JwtAuthGuard)
     @Mutation(returns => Boolean)
-    deleteUsers(@Args({name: "userIds", type: () => [ID]}) userIds: Array<string>): Promise<boolean | null> {
+    deleteUsers(@Args({name: "ids", type: () => [ID]}) userIds: Array<string>): Promise<boolean | null> {
         return this.usersService.delete(userIds);
     }
 }

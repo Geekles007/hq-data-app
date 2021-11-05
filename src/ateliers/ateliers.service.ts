@@ -10,6 +10,7 @@ import {v4 as uuidv4} from "uuid";
 import {DateTime} from "luxon";
 import {RegionsService} from "../regions/regions.service";
 import {Region} from "../regions/region.entity";
+import {PaginateAtelierResult} from "./dto/PaginateAtelierResult";
 
 @Injectable()
 export class AteliersService implements BaseService<Atelier, CreateAtelierInput> {
@@ -53,14 +54,17 @@ export class AteliersService implements BaseService<Atelier, CreateAtelierInput>
         return null;
     }
 
-    async findAll(first: number, after?: number): Promise<Atelier[]> {
-        const ateliers: Atelier[] = await this.ateliersRepository.find({
+    async findAll(first: number, after?: number): Promise<PaginateAtelierResult> {
+        const [result, total] = await this.ateliersRepository.findAndCount({
             take: first,
             skip: after,
             relations: ["region", "createdBy", "updatedBy"],
         });
         try {
-            return ateliers;
+            return {
+                data: result,
+                count: total
+            };
         } catch(error: any) {
             throw new Error(error.message) ;
         }

@@ -8,6 +8,7 @@ import {v4 as uuidv4} from "uuid";
 import {DateTime} from "luxon";
 import {UsersService} from "../users/users.service";
 import {User} from "../users/user.entity";
+import {PaginateResult} from "./dto/PaginateResult";
 
 @Injectable()
 export class RegionsService implements BaseService<Region, CreateRegionInput> {
@@ -48,14 +49,17 @@ export class RegionsService implements BaseService<Region, CreateRegionInput> {
         return null;
     }
 
-    async findAll(first: number, after?: number): Promise<Region[]> {
-        const regions: Region[] = await this.regionsRepository.find({
-            take: first,
-            skip: after,
+    async findAll(first?: number, after?: number): Promise<PaginateResult> {
+        const [result, total] = await this.regionsRepository.findAndCount({
+            take: first ?? undefined,
+            skip: after ?? undefined,
             relations: ["createdBy", "updatedBy"]
         });
         try {
-            return regions;
+            return {
+                data: result,
+                count: total ?? 0
+            };
         } catch(error: any) {
             throw new Error(error.message) ;
         }

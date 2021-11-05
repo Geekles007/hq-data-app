@@ -5,6 +5,7 @@ import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {Place} from "../places/place.entity";
 import {CreatePlaceInput} from "../places/dto/create-place.input";
 import {TokenReq} from "../decorators/token.decorator";
+import {PaginatePlaceResult} from "./dto/PaginatePlaceResult";
 
 @Resolver()
 export class PlacesResolver {
@@ -12,8 +13,8 @@ export class PlacesResolver {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Query(returns => [Place])
-    findAllPlace(@Args('first') first: number, @Args('after') after: number): Promise<Place[]> {
+    @Query(returns => PaginatePlaceResult)
+    findAllPlace(@Args('first') first: number, @Args('after') after: number): Promise<PaginatePlaceResult> {
         return this.placesService.findAll(first, after);
     }
 
@@ -25,13 +26,13 @@ export class PlacesResolver {
 
     @UseGuards(JwtAuthGuard)
     @Mutation(returns => Place)
-    createOrEditPlace(@Args('createPlaceInput') createPlaceInput: CreatePlaceInput, @TokenReq() token: string): Promise<Place | null> {
+    createOrEditPlace(@Args('input') createPlaceInput: CreatePlaceInput, @TokenReq() token: string): Promise<Place | null> {
         return this.placesService.createOrEdit(createPlaceInput, token);
     }
 
     @UseGuards(JwtAuthGuard)
     @Mutation(returns => Boolean)
-    deletePlaces(@Args({name: "placeIds", type: () => [ID]}) placeIds: Array<string>): Promise<boolean | null> {
+    deletePlaces(@Args({name: "ids", type: () => [ID]}) placeIds: Array<string>): Promise<boolean | null> {
         return this.placesService.delete(placeIds);
     }
 }

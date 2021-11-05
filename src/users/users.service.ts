@@ -10,6 +10,7 @@ import {DateTime} from "luxon";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {JwtService} from "@nestjs/jwt";
 import {jwtConstants} from "../auth/constants";
+import {PaginateUserResult} from "./dto/PaginateSiteResult";
 
 @Injectable()
 export class UsersService implements IService<User, CreateUserInput> {
@@ -21,22 +22,25 @@ export class UsersService implements IService<User, CreateUserInput> {
 
     }
 
-    @UseGuards(JwtAuthGuard)
-    async findAll(): Promise<User[]> {
-        const users: User[] = await this.usersRepository.find();
+    async findAll(first: number, after?: number): Promise<PaginateUserResult> {
+        const [result, total] = await this.usersRepository.findAndCount({
+            take: first,
+            skip: after
+        });
         try {
-            return users;
+            return {
+                data: result,
+                count: total
+            };
         } catch (error: any) {
             throw new Error(error.message);
         }
     }
 
-    @UseGuards(JwtAuthGuard)
     async findOne(id: string): Promise<User> {
         return await this.usersRepository.findOneOrFail(id);
     }
 
-    @UseGuards(JwtAuthGuard)
     async create(createUserInput: CreateUserInput): Promise<User> {
         try {
             const newUser = await this.usersRepository.create({
@@ -52,13 +56,17 @@ export class UsersService implements IService<User, CreateUserInput> {
         }
     }
 
-    @UseGuards(JwtAuthGuard)
     async update(id: string, createUserInput: CreateUserInput): Promise<User | null> {
         let user = await this.usersRepository.findOneOrFail(createUserInput?.id);
+        const newPassword = createUserInput?.password && createUserInput?.password !== "" ? await bcrypt.hash(createUserInput?.password, 12) : user?.password;
         if (user) {
             return this.usersRepository.save({
                 id: id,
-                ...createUserInput,
+                firstname: createUserInput?.firstname && createUserInput?.firstname !== "" ? createUserInput?.firstname : user?.firstname,
+                lastname: createUserInput?.lastname && createUserInput?.lastname !== "" ? createUserInput?.lastname : user?.lastname,
+                email: createUserInput?.email && createUserInput?.email !== "" ? createUserInput?.email : user?.email,
+                username: createUserInput?.username && createUserInput?.username !== "" ? createUserInput?.username : user?.username,
+                password: newPassword,
                 createdAt: user?.createdAt,
                 updatedAt: DateTime.now().toUTC().toISO()
             });
@@ -67,7 +75,6 @@ export class UsersService implements IService<User, CreateUserInput> {
         }
     }
 
-    @UseGuards(JwtAuthGuard)
     async createOrEdit(data: CreateUserInput): Promise<User | null> {
         const exists: User | undefined = await this.usersRepository.createQueryBuilder("users")
             .where("users.email = :email", {email: data.email})
@@ -84,7 +91,6 @@ export class UsersService implements IService<User, CreateUserInput> {
         }
     }
 
-    @UseGuards(JwtAuthGuard)
     async delete(ids: Array<string>): Promise<boolean | null> {
         const dataToRemove = await this.usersRepository.createQueryBuilder("users")
             .where("users.id IN (:...ids)", {
@@ -134,7 +140,6 @@ export class UsersService implements IService<User, CreateUserInput> {
         return connected;
     }
 
-    @UseGuards(JwtAuthGuard)
     async findOneUser(login: string): Promise<User | undefined> {
         try {
             return await this.usersRepository.createQueryBuilder("users")

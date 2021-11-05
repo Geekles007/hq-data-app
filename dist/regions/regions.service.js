@@ -52,13 +52,16 @@ let RegionsService = class RegionsService {
         return null;
     }
     async findAll(first, after) {
-        const regions = await this.regionsRepository.find({
-            take: first,
-            skip: after,
+        const [result, total] = await this.regionsRepository.findAndCount({
+            take: first !== null && first !== void 0 ? first : undefined,
+            skip: after !== null && after !== void 0 ? after : undefined,
             relations: ["createdBy", "updatedBy"]
         });
         try {
-            return regions;
+            return {
+                data: result,
+                count: total !== null && total !== void 0 ? total : 0
+            };
         }
         catch (error) {
             throw new Error(error.message);

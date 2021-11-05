@@ -10,6 +10,7 @@ import {InjectRepository} from "@nestjs/typeorm";
 import {SitesService} from "../sites/sites.service";
 import {CreateGroupInput} from "./dto/create-group.input";
 import {Group} from "./group.entity";
+import {PaginateGroupResult} from "./dto/PaginateGroupResult";
 
 @Injectable()
 export class GroupsService implements BaseService<Group, CreateGroupInput> {
@@ -53,14 +54,17 @@ export class GroupsService implements BaseService<Group, CreateGroupInput> {
         return null;
     }
 
-    async findAll(first: number, after?: number): Promise<Group[]> {
-        const groups: Group[] = await this.groupsRepository.find({
+    async findAll(first: number, after?: number): Promise<PaginateGroupResult> {
+        const [result, total] = await this.groupsRepository.findAndCount({
             take: first,
             skip: after,
             relations: ["site", "createdBy", "updatedBy"]
         });
         try {
-            return groups;
+            return {
+                data: result,
+                count: total
+            };
         } catch (error: any) {
             throw new Error(error.message);
         }

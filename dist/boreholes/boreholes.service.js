@@ -55,13 +55,16 @@ let BoreholesService = class BoreholesService {
         return null;
     }
     async findAll(first, after) {
-        const boreholes = await this.boreholesRepository.find({
+        const [result, total] = await this.boreholesRepository.findAndCount({
             take: first,
             skip: after,
             relations: ["createdBy", "updatedBy", "site"],
         });
         try {
-            return boreholes;
+            return {
+                data: result,
+                count: total
+            };
         }
         catch (error) {
             throw new Error(error.message);

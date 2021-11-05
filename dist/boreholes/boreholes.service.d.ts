@@ -5,6 +5,7 @@ import { Repository } from "typeorm";
 import { UsersService } from "../users/users.service";
 import { User } from "../users/user.entity";
 import { SitesService } from "../sites/sites.service";
+import { PaginateBoreholeResult } from "./dto/PaginateBoreholeResult";
 export declare class BoreholesService implements BaseService<Borehole, CreateBoreholeInput> {
     private boreholesRepository;
     private usersService;
@@ -12,7 +13,7 @@ export declare class BoreholesService implements BaseService<Borehole, CreateBor
     constructor(boreholesRepository: Repository<Borehole>, usersService: UsersService, sitesService: SitesService);
     create(data: CreateBoreholeInput, connected?: User): Promise<Borehole>;
     delete(ids: Array<string>): Promise<boolean | null>;
-    findAll(first: number, after?: number): Promise<Borehole[]>;
+    findAll(first: number, after?: number): Promise<PaginateBoreholeResult>;
     findOne(id: string): Promise<Borehole>;
     update(id: string, data: CreateBoreholeInput, connected?: User): Promise<Borehole | null>;
     createOrEdit(data: CreateBoreholeInput, token: string): Promise<Borehole | null>;

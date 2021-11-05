@@ -5,6 +5,7 @@ import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {UseGuards} from "@nestjs/common";
 import {GeneratorsService} from "./generators.service";
 import {Generator} from "./generator.entity";
+import {PaginateGeneratorResult} from "./dto/PaginateGeneratorResult";
 
 @Resolver()
 export class GeneratorsResolver {
@@ -12,8 +13,8 @@ export class GeneratorsResolver {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Query(returns => [Generator])
-    findAllGenerator(@Args('first') first: number, @Args('after') after: number): Promise<Generator[]> {
+    @Query(returns => PaginateGeneratorResult)
+    findAllGenerator(@Args('first') first: number, @Args('after') after: number): Promise<PaginateGeneratorResult> {
         return this.generatorsService.findAll(first, after);
     }
 
@@ -25,13 +26,13 @@ export class GeneratorsResolver {
 
     @UseGuards(JwtAuthGuard)
     @Mutation(returns => Generator)
-    createOrEditGenerator(@Args('createGeneratorInput') createGeneratorInput: CreateGeneratorInput, @TokenReq() token: string): Promise<Generator | null> {
+    createOrEditGenerator(@Args('input') createGeneratorInput: CreateGeneratorInput, @TokenReq() token: string): Promise<Generator | null> {
         return this.generatorsService.createOrEdit(createGeneratorInput, token);
     }
 
     @UseGuards(JwtAuthGuard)
     @Mutation(returns => Boolean)
-    deleteGenerators(@Args({name: "generatorIds", type: () => [ID]}) generatorIds: Array<string>): Promise<boolean | null> {
+    deleteGenerators(@Args({name: "ids", type: () => [ID]}) generatorIds: Array<string>): Promise<boolean | null> {
         return this.generatorsService.delete(generatorIds);
     }
 }

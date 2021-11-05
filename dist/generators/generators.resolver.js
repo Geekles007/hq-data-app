@@ -20,6 +20,7 @@ const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
 const common_1 = require("@nestjs/common");
 const generators_service_1 = require("./generators.service");
 const generator_entity_1 = require("./generator.entity");
+const PaginateGeneratorResult_1 = require("./dto/PaginateGeneratorResult");
 let GeneratorsResolver = class GeneratorsResolver {
     constructor(generatorsService) {
         this.generatorsService = generatorsService;
@@ -39,7 +40,7 @@ let GeneratorsResolver = class GeneratorsResolver {
 };
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, graphql_1.Query)(returns => [generator_entity_1.Generator]),
+    (0, graphql_1.Query)(returns => PaginateGeneratorResult_1.PaginateGeneratorResult),
     __param(0, (0, graphql_1.Args)('first')),
     __param(1, (0, graphql_1.Args)('after')),
     __metadata("design:type", Function),
@@ -57,7 +58,7 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, graphql_1.Mutation)(returns => generator_entity_1.Generator),
-    __param(0, (0, graphql_1.Args)('createGeneratorInput')),
+    __param(0, (0, graphql_1.Args)('input')),
     __param(1, (0, token_decorator_1.TokenReq)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_generator_input_1.CreateGeneratorInput, String]),
@@ -66,7 +67,7 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, graphql_1.Mutation)(returns => Boolean),
-    __param(0, (0, graphql_1.Args)({ name: "generatorIds", type: () => [graphql_1.ID] })),
+    __param(0, (0, graphql_1.Args)({ name: "ids", type: () => [graphql_1.ID] })),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Array]),
     __metadata("design:returntype", Promise)

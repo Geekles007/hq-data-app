@@ -5,6 +5,7 @@ import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {Borehole} from "./borehole.entity";
 import {CreateBoreholeInput} from "./dto/create-borehole.input";
 import {TokenReq} from "../decorators/token.decorator";
+import {PaginateBoreholeResult} from "./dto/PaginateBoreholeResult";
 
 @Resolver()
 export class BoreholesResolver {
@@ -12,8 +13,8 @@ export class BoreholesResolver {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Query(returns => [Borehole])
-    findAllBorehole(@Args('first') first: number, @Args('after') after: number): Promise<Borehole[]> {
+    @Query(returns => PaginateBoreholeResult)
+    findAllBorehole(@Args('first') first: number, @Args('after') after: number): Promise<PaginateBoreholeResult> {
         return this.boreholesService.findAll(first, after);
     }
 
@@ -25,13 +26,13 @@ export class BoreholesResolver {
 
     @UseGuards(JwtAuthGuard)
     @Mutation(returns => Borehole)
-    createOrEditBorehole(@Args('createBoreholeInput') createBoreholeInput: CreateBoreholeInput, @TokenReq() token: string): Promise<Borehole | null> {
+    createOrEditBorehole(@Args('input') createBoreholeInput: CreateBoreholeInput, @TokenReq() token: string): Promise<Borehole | null> {
         return this.boreholesService.createOrEdit(createBoreholeInput, token);
     }
 
     @UseGuards(JwtAuthGuard)
     @Mutation(returns => Boolean)
-    deleteBoreholes(@Args({name: "boreholeIds", type: () => [ID]}) boreholeIds: Array<string>): Promise<boolean | null> {
+    deleteBoreholes(@Args({name: "ids", type: () => [ID]}) boreholeIds: Array<string>): Promise<boolean | null> {
         return this.boreholesService.delete(boreholeIds);
     }
 }

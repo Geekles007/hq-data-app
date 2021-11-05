@@ -10,6 +10,7 @@ import {v4 as uuidv4} from "uuid";
 import {DateTime} from "luxon";
 import {Site} from "../sites/site.entity";
 import {SitesService} from "../sites/sites.service";
+import {PaginateBoreholeResult} from "./dto/PaginateBoreholeResult";
 
 @Injectable()
 export class BoreholesService implements BaseService<Borehole, CreateBoreholeInput> {
@@ -53,14 +54,17 @@ export class BoreholesService implements BaseService<Borehole, CreateBoreholeInp
         return null;
     }
 
-    async findAll(first: number, after?: number): Promise<Borehole[]> {
-        const boreholes: Borehole[] = await this.boreholesRepository.find({
+    async findAll(first: number, after?: number): Promise<PaginateBoreholeResult> {
+        const [result, total] = await this.boreholesRepository.findAndCount({
             take: first,
             skip: after,
             relations: ["createdBy", "updatedBy", "site"],
         });
         try {
-            return boreholes;
+            return {
+                data: result,
+                count: total
+            };
         } catch(error: any) {
             throw new Error(error.message) ;
         }

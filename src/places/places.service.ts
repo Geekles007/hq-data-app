@@ -10,6 +10,7 @@ import {InjectRepository} from "@nestjs/typeorm";
 import {Site} from "../sites/site.entity";
 import {Place} from "./place.entity";
 import {CreatePlaceInput} from "./dto/create-place.input";
+import {PaginatePlaceResult} from "./dto/PaginatePlaceResult";
 
 @Injectable()
 export class PlacesService implements BaseService<Place, CreatePlaceInput> {
@@ -53,14 +54,17 @@ export class PlacesService implements BaseService<Place, CreatePlaceInput> {
         return null;
     }
 
-    async findAll(first: number, after?: number): Promise<Place[]> {
-        const places: Place[] = await this.placesRepository.find({
+    async findAll(first: number, after?: number): Promise<PaginatePlaceResult> {
+        const [result, total] = await this.placesRepository.findAndCount({
             take: first,
             skip: after,
             relations: ["site", "createdBy", "updatedBy"]
         });
         try {
-            return places;
+            return {
+                data: result,
+                count: total
+            };
         } catch(error: any) {
             throw new Error(error.message) ;
         }

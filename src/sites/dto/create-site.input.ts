@@ -11,6 +11,6 @@ export class CreateSiteInput {
     @Field()
     reference: string = "";
 
-    @Field()
+    @Field({nullable: true})
     regionId?: string;
 }

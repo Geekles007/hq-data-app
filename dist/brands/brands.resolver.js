@@ -20,6 +20,7 @@ const brands_service_1 = require("./brands.service");
 const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
 const common_1 = require("@nestjs/common");
 const create_brand_input_1 = require("./dto/create-brand.input");
+const PaginateBrandResult_1 = require("./dto/PaginateBrandResult");
 let BrandsResolver = class BrandsResolver {
     constructor(brandsService) {
         this.brandsService = brandsService;
@@ -39,7 +40,7 @@ let BrandsResolver = class BrandsResolver {
 };
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, graphql_1.Query)(returns => [brand_entity_1.Brand]),
+    (0, graphql_1.Query)(returns => PaginateBrandResult_1.PaginateBrandResult),
     __param(0, (0, graphql_1.Args)('first')),
     __param(1, (0, graphql_1.Args)('after')),
     __metadata("design:type", Function),
@@ -57,7 +58,7 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, graphql_1.Mutation)(returns => brand_entity_1.Brand),
-    __param(0, (0, graphql_1.Args)('createBrandInput')),
+    __param(0, (0, graphql_1.Args)('input')),
     __param(1, (0, token_decorator_1.TokenReq)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_brand_input_1.CreateBrandInput, String]),
@@ -66,7 +67,7 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, graphql_1.Mutation)(returns => Boolean),
-    __param(0, (0, graphql_1.Args)({ name: "brandIds", type: () => [graphql_1.ID] })),
+    __param(0, (0, graphql_1.Args)({ name: "ids", type: () => [graphql_1.ID] })),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Array]),
     __metadata("design:returntype", Promise)

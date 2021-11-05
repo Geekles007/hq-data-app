@@ -20,21 +20,25 @@ const common_1 = require("@nestjs/common");
 const user_entity_1 = require("./user.entity");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
-const create_user_input_1 = require("./dto/create-user.input");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const uuid_1 = require("uuid");
 const luxon_1 = require("luxon");
-const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
 const jwt_1 = require("@nestjs/jwt");
 const constants_1 = require("../auth/constants");
 let UsersService = class UsersService {
     constructor(usersRepository) {
         this.usersRepository = usersRepository;
     }
-    async findAll() {
-        const users = await this.usersRepository.find();
+    async findAll(first, after) {
+        const [result, total] = await this.usersRepository.findAndCount({
+            take: first,
+            skip: after
+        });
         try {
-            return users;
+            return {
+                data: result,
+                count: total
+            };
         }
         catch (error) {
             throw new Error(error.message);
@@ -54,8 +58,18 @@ let UsersService = class UsersService {
     }
     async update(id, createUserInput) {
         let user = await this.usersRepository.findOneOrFail(createUserInput === null || createUserInput === void 0 ? void 0 : createUserInput.id);
+        const newPassword = (createUserInput === null || createUserInput === void 0 ? void 0 : createUserInput.password) && (createUserInput === null || createUserInput === void 0 ? void 0 : createUserInput.password) !== "" ? await bcrypt_1.default.hash(createUserInput === null || createUserInput === void 0 ? void 0 : createUserInput.password, 12) : user === null || user === void 0 ? void 0 : user.password;
         if (user) {
-            return this.usersRepository.save(Object.assign(Object.assign({ id: id }, createUserInput), { createdAt: user === null || user === void 0 ? void 0 : user.createdAt, updatedAt: luxon_1.DateTime.now().toUTC().toISO() }));
+            return this.usersRepository.save({
+                id: id,
+                firstname: (createUserInput === null || createUserInput === void 0 ? void 0 : createUserInput.firstname) && (createUserInput === null || createUserInput === void 0 ? void 0 : createUserInput.firstname) !== "" ? createUserInput === null || createUserInput === void 0 ? void 0 : createUserInput.firstname : user === null || user === void 0 ? void 0 : user.firstname,
+                lastname: (createUserInput === null || createUserInput === void 0 ? void 0 : createUserInput.lastname) && (createUserInput === null || createUserInput === void 0 ? void 0 : createUserInput.lastname) !== "" ? createUserInput === null || createUserInput === void 0 ? void 0 : createUserInput.lastname : user === null || user === void 0 ? void 0 : user.lastname,
+                email: (createUserInput === null || createUserInput === void 0 ? void 0 : createUserInput.email) && (createUserInput === null || createUserInput === void 0 ? void 0 : createUserInput.email) !== "" ? createUserInput === null || createUserInput === void 0 ? void 0 : createUserInput.email : user === null || user === void 0 ? void 0 : user.email,
+                username: (createUserInput === null || createUserInput === void 0 ? void 0 : createUserInput.username) && (createUserInput === null || createUserInput === void 0 ? void 0 : createUserInput.username) !== "" ? createUserInput === null || createUserInput === void 0 ? void 0 : createUserInput.username : user === null || user === void 0 ? void 0 : user.username,
+                password: newPassword,
+                createdAt: user === null || user === void 0 ? void 0 : user.createdAt,
+                updatedAt: luxon_1.DateTime.now().toUTC().toISO()
+            });
         }
         else {
             throw new Error("Something went wrong.");
@@ -129,48 +143,6 @@ let UsersService = class UsersService {
         }
     }
 };
-__decorate([
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], UsersService.prototype, "findAll", null);
-__decorate([
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], UsersService.prototype, "findOne", null);
-__decorate([
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_user_input_1.CreateUserInput]),
-    __metadata("design:returntype", Promise)
-], UsersService.prototype, "create", null);
-__decorate([
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, create_user_input_1.CreateUserInput]),
-    __metadata("design:returntype", Promise)
-], UsersService.prototype, "update", null);
-__decorate([
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_user_input_1.CreateUserInput]),
-    __metadata("design:returntype", Promise)
-], UsersService.prototype, "createOrEdit", null);
-__decorate([
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Array]),
-    __metadata("design:returntype", Promise)
-], UsersService.prototype, "delete", null);
-__decorate([
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], UsersService.prototype, "findOneUser", null);
 UsersService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.User)),

@@ -1,7 +1,7 @@
 import {User} from "../users/user.entity";
 
 export interface IService<T, V> {
-    findAll: (first: number, after?: string) => Promise<T[]>;
+    findAll: (first: number, after?: number) => Promise<any>;
     findOne: (id: string) => Promise<T>;
     create: (data: V) => Promise<T>;
     update?: (id: string, data: V) => Promise<T | null>;

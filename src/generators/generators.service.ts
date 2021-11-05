@@ -12,6 +12,7 @@ import {UsersService} from "../users/users.service";
 import {User} from "../users/user.entity";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Generator} from "./generator.entity";
+import {PaginateGeneratorResult} from "./dto/PaginateGeneratorResult";
 
 @Injectable()
 export class GeneratorsService implements BaseService<Generator, CreateGeneratorInput> {
@@ -60,14 +61,17 @@ export class GeneratorsService implements BaseService<Generator, CreateGenerator
         return null;
     }
 
-    async findAll(first: number, after?: number): Promise<Generator[]> {
-        const generators: Generator[] = await this.generatorsRepository.find({
+    async findAll(first: number, after?: number): Promise<PaginateGeneratorResult> {
+        const [result, total] = await this.generatorsRepository.findAndCount({
             take: first,
             skip: after,
             relations: ["createdBy", "updatedBy", "site", "brand"],
         });
         try {
-            return generators;
+            return {
+                data: result,
+                count: total
+            };
         } catch(error: any) {
             throw new Error(error.message) ;
         }

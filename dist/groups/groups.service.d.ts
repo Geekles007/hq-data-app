@@ -5,6 +5,7 @@ import { User } from "../users/user.entity";
 import { SitesService } from "../sites/sites.service";
 import { CreateGroupInput } from "./dto/create-group.input";
 import { Group } from "./group.entity";
+import { PaginateGroupResult } from "./dto/PaginateGroupResult";
 export declare class GroupsService implements BaseService<Group, CreateGroupInput> {
     private groupsRepository;
     private usersService;
@@ -12,7 +13,7 @@ export declare class GroupsService implements BaseService<Group, CreateGroupInpu
     constructor(groupsRepository: Repository<Group>, usersService: UsersService, sitesService: SitesService);
     create(data: CreateGroupInput, connected?: User): Promise<Group>;
     delete(ids: Array<string>): Promise<boolean | null>;
-    findAll(first: number, after?: number): Promise<Group[]>;
+    findAll(first: number, after?: number): Promise<PaginateGroupResult>;
     findOne(id: string): Promise<Group>;
     update(id: string, data: CreateGroupInput, connected?: User): Promise<Group | null>;
     createOrEdit(data: CreateGroupInput, token: string): Promise<Group | null>;

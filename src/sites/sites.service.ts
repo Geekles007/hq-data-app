@@ -10,6 +10,7 @@ import {User} from "../users/user.entity";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Region} from "../regions/region.entity";
 import {CreateSiteInput} from "./dto/create-site.input";
+import {PaginateSiteResult} from "./dto/PaginateSiteResult";
 
 @Injectable()
 export class SitesService implements BaseService<Site, CreateSiteInput> {
@@ -53,14 +54,17 @@ export class SitesService implements BaseService<Site, CreateSiteInput> {
         return null;
     }
 
-    async findAll(first: number, after?: number): Promise<Site[]> {
-        const sites: Site[] = await this.sitesRepository.find({
+    async findAll(first: number, after?: number): Promise<PaginateSiteResult> {
+        const [result, total] = await this.sitesRepository.findAndCount({
             take: first,
             skip: after,
-            relations: ["region"]
+            relations: ["region", "createdBy", "updatedBy"],
         });
         try {
-            return sites;
+            return {
+                data: result,
+                count: total
+            };
         } catch(error: any) {
             throw new Error(error.message) ;
         }
@@ -81,6 +85,7 @@ export class SitesService implements BaseService<Site, CreateSiteInput> {
         if(site) {
             site.updatedBy = connected;
             site.name = data.name && data?.name !== "" ? data?.name : site?.name;
+            site.reference = data.reference && data?.reference !== "" ? data?.reference : site?.reference;
             site.region = region;
             site.updatedAt = new Date(DateTime.now().toUTC().toISO());
             return await this.sitesRepository.save(site);
