@@ -7,7 +7,7 @@ export class CreateGeneratorInput {
     id?: string;
 
     @Field()
-    state: State = State.f;
+    state: boolean = true;
 
     @Field()
     reference: string = "";

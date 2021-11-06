@@ -5,18 +5,21 @@ export class CreateUserInput {
     @Field({nullable: true})
     id?: string;
 
-    @Field()
-    firstname: string = "";
+    @Field({nullable: true})
+    firstname?: string;
 
-    @Field()
-    lastname: string = "";
+    @Field({nullable: true})
+    lastname?: string;
 
-    @Field()
-    email: string = "";
+    @Field({nullable: true})
+    email?: string;
 
-    @Field()
-    username: string = "";
+    @Field({nullable: true})
+    username?: string;
 
-    @Field()
+    @Field({nullable: true})
     password: string = "";
+
+    @Field({nullable: true})
+    blocked?: boolean;
 }

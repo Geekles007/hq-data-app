@@ -32,7 +32,7 @@ export class Place extends BaseEntity {
         onDelete: "CASCADE"
     })
     @JoinColumn({name: "siteId"})
-    @Field(type => Site)
+    @Field(type => Site, {nullable: true})
     site?: Site;
 
     @OneToMany(() => Clim, (clim: Clim) => clim.place)

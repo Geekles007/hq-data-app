@@ -11,6 +11,6 @@ export class CreateAtelierInput {
     @Field()
     reference: string = "";
 
-    @Field()
+    @Field({nullable: true})
     regionId?: string;
 }

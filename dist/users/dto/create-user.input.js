@@ -13,10 +13,6 @@ exports.CreateUserInput = void 0;
 const graphql_1 = require("@nestjs/graphql");
 let CreateUserInput = class CreateUserInput {
     constructor() {
-        this.firstname = "";
-        this.lastname = "";
-        this.email = "";
-        this.username = "";
         this.password = "";
     }
 };
@@ -25,25 +21,29 @@ __decorate([
     __metadata("design:type", String)
 ], CreateUserInput.prototype, "id", void 0);
 __decorate([
-    (0, graphql_1.Field)(),
+    (0, graphql_1.Field)({ nullable: true }),
     __metadata("design:type", String)
 ], CreateUserInput.prototype, "firstname", void 0);
 __decorate([
-    (0, graphql_1.Field)(),
+    (0, graphql_1.Field)({ nullable: true }),
     __metadata("design:type", String)
 ], CreateUserInput.prototype, "lastname", void 0);
 __decorate([
-    (0, graphql_1.Field)(),
+    (0, graphql_1.Field)({ nullable: true }),
     __metadata("design:type", String)
 ], CreateUserInput.prototype, "email", void 0);
 __decorate([
-    (0, graphql_1.Field)(),
+    (0, graphql_1.Field)({ nullable: true }),
     __metadata("design:type", String)
 ], CreateUserInput.prototype, "username", void 0);
 __decorate([
-    (0, graphql_1.Field)(),
+    (0, graphql_1.Field)({ nullable: true }),
     __metadata("design:type", String)
 ], CreateUserInput.prototype, "password", void 0);
+__decorate([
+    (0, graphql_1.Field)({ nullable: true }),
+    __metadata("design:type", Boolean)
+], CreateUserInput.prototype, "blocked", void 0);
 CreateUserInput = __decorate([
     (0, graphql_1.InputType)()
 ], CreateUserInput);

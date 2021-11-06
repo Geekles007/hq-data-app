@@ -59,6 +59,16 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ type: "boolean" }),
+    (0, graphql_1.Field)({ nullable: true, defaultValue: true }),
+    __metadata("design:type", Boolean)
+], User.prototype, "blocked", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "text" }),
+    (0, graphql_1.Field)({ nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "token", void 0);
+__decorate([
     (0, typeorm_1.OneToMany)(() => region_entity_1.Region, (region) => region.createdBy),
     __metadata("design:type", Array)
 ], User.prototype, "createdRegions", void 0);
@@ -130,11 +140,6 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => borehole_entity_1.Borehole, (borehole) => borehole.createdBy),
     __metadata("design:type", Array)
 ], User.prototype, "updatedBoreholes", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ type: "text" }),
-    (0, graphql_1.Field)({ nullable: true }),
-    __metadata("design:type", String)
-], User.prototype, "token", void 0);
 User = __decorate([
     (0, typeorm_1.Entity)("users"),
     (0, graphql_1.ObjectType)()

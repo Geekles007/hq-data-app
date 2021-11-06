@@ -14,6 +14,8 @@ export declare class User extends BaseEntity {
     email: string;
     username: string;
     password: string;
+    blocked?: boolean;
+    token: string;
     createdRegions: Region[];
     updatedRegions: Region[];
     createdAteliers: Atelier[];
@@ -32,5 +34,4 @@ export declare class User extends BaseEntity {
     updatedGroups: Group[];
     createdBoreholes: Borehole[];
     updatedBoreholes: Borehole[];
-    token: string;
 }

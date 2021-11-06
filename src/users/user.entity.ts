@@ -44,6 +44,14 @@ export class User extends BaseEntity{
     @Field({nullable: false})
     password: string = "";
 
+    @Column({type: "boolean"})
+    @Field({nullable: true, defaultValue: true})
+    blocked?: boolean;
+
+    @Column({type: "text"})
+    @Field({nullable: true})
+    token: string = "";
+
     @OneToMany(() => Region, (region: Region) => region.createdBy)
     createdRegions!: Region[];
 
@@ -97,9 +105,5 @@ export class User extends BaseEntity{
 
     @OneToMany(() => Borehole, (borehole: Borehole) => borehole.createdBy)
     updatedBoreholes!: Borehole[];
-
-    @Column({type: "text"})
-    @Field({nullable: true})
-    token: string = "";
 
 }

@@ -1,7 +1,6 @@
-import { State } from "../generator.entity";
 export declare class CreateGeneratorInput {
     id?: string;
-    state: State;
+    state: boolean;
     reference: string;
     observation: string;
     numSeries: string;

@@ -34,7 +34,7 @@ let GeneratorsService = class GeneratorsService {
         const brand = (data === null || data === void 0 ? void 0 : data.brandId) ? await this.brandsService.findOne(data === null || data === void 0 ? void 0 : data.brandId) : undefined;
         const site = (data === null || data === void 0 ? void 0 : data.siteId) ? await this.sitesService.findOne(data === null || data === void 0 ? void 0 : data.siteId) : undefined;
         try {
-            const newGenerator = await this.generatorsRepository.create(Object.assign(Object.assign({ id: (0, uuid_1.v4)() }, data), { brand: brand, site: site, observation: (_a = data === null || data === void 0 ? void 0 : data.observation) !== null && _a !== void 0 ? _a : "", numSeries: (_b = data === null || data === void 0 ? void 0 : data.numSeries) !== null && _b !== void 0 ? _b : "", createdBy: connected, updatedBy: connected }));
+            const newGenerator = await this.generatorsRepository.create(Object.assign(Object.assign({ id: (0, uuid_1.v4)() }, data), { state: data.state ? generator_entity_1.State.f : generator_entity_1.State.p, brand: brand, site: site, observation: (_a = data === null || data === void 0 ? void 0 : data.observation) !== null && _a !== void 0 ? _a : "", numSeries: (_b = data === null || data === void 0 ? void 0 : data.numSeries) !== null && _b !== void 0 ? _b : "", createdBy: connected, updatedBy: connected }));
             return this.generatorsRepository.save(newGenerator);
         }
         catch (error) {
@@ -91,7 +91,7 @@ let GeneratorsService = class GeneratorsService {
             generator.updatedBy = connected;
             generator.reference = data.reference && data.reference !== "" ? data.reference : generator === null || generator === void 0 ? void 0 : generator.reference;
             generator.power = data.power ? data.power : generator === null || generator === void 0 ? void 0 : generator.power;
-            generator.state = data.state ? data.state : generator === null || generator === void 0 ? void 0 : generator.state;
+            generator.state = data.state !== undefined ? (data.state ? generator_entity_1.State.f : generator_entity_1.State.p) : ((generator === null || generator === void 0 ? void 0 : generator.state) ? generator_entity_1.State.f : generator_entity_1.State.p);
             generator.brand = brand;
             generator.site = site;
             generator.observation = (data === null || data === void 0 ? void 0 : data.observation) && (data === null || data === void 0 ? void 0 : data.observation) !== "" ? data === null || data === void 0 ? void 0 : data.observation : generator === null || generator === void 0 ? void 0 : generator.observation;

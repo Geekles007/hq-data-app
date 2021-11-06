@@ -48,7 +48,7 @@ __decorate([
         onDelete: "CASCADE"
     }),
     (0, typeorm_1.JoinColumn)({ name: "siteId" }),
-    (0, graphql_1.Field)(type => site_entity_1.Site),
+    (0, graphql_1.Field)(type => site_entity_1.Site, { nullable: true }),
     __metadata("design:type", site_entity_1.Site)
 ], Place.prototype, "site", void 0);
 __decorate([

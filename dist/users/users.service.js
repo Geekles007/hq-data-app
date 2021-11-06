@@ -49,7 +49,7 @@ let UsersService = class UsersService {
     }
     async create(createUserInput) {
         try {
-            const newUser = await this.usersRepository.create(Object.assign(Object.assign({ id: (0, uuid_1.v4)() }, createUserInput), { createdAt: luxon_1.DateTime.now().toUTC().toISO(), updatedAt: luxon_1.DateTime.now().toUTC().toISO(), password: await bcrypt_1.default.hash(createUserInput.password, 12) }));
+            const newUser = await this.usersRepository.create(Object.assign(Object.assign({ id: (0, uuid_1.v4)() }, createUserInput), { blocked: true, createdAt: luxon_1.DateTime.now().toUTC().toISO(), updatedAt: luxon_1.DateTime.now().toUTC().toISO(), password: await bcrypt_1.default.hash(createUserInput.password, 12) }));
             return this.usersRepository.save(newUser);
         }
         catch (error) {
@@ -66,6 +66,7 @@ let UsersService = class UsersService {
                 lastname: (createUserInput === null || createUserInput === void 0 ? void 0 : createUserInput.lastname) && (createUserInput === null || createUserInput === void 0 ? void 0 : createUserInput.lastname) !== "" ? createUserInput === null || createUserInput === void 0 ? void 0 : createUserInput.lastname : user === null || user === void 0 ? void 0 : user.lastname,
                 email: (createUserInput === null || createUserInput === void 0 ? void 0 : createUserInput.email) && (createUserInput === null || createUserInput === void 0 ? void 0 : createUserInput.email) !== "" ? createUserInput === null || createUserInput === void 0 ? void 0 : createUserInput.email : user === null || user === void 0 ? void 0 : user.email,
                 username: (createUserInput === null || createUserInput === void 0 ? void 0 : createUserInput.username) && (createUserInput === null || createUserInput === void 0 ? void 0 : createUserInput.username) !== "" ? createUserInput === null || createUserInput === void 0 ? void 0 : createUserInput.username : user === null || user === void 0 ? void 0 : user.username,
+                blocked: (createUserInput === null || createUserInput === void 0 ? void 0 : createUserInput.blocked) ? createUserInput === null || createUserInput === void 0 ? void 0 : createUserInput.blocked : user === null || user === void 0 ? void 0 : user.blocked,
                 password: newPassword,
                 createdAt: user === null || user === void 0 ? void 0 : user.createdAt,
                 updatedAt: luxon_1.DateTime.now().toUTC().toISO()

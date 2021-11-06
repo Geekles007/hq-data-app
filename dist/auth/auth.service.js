@@ -35,9 +35,14 @@ let AuthService = class AuthService {
     }
     async validateUser(username, password) {
         const user = await this.usersService.findOneUser(username);
-        if (user && await bcrypt_1.default.compare(password, user === null || user === void 0 ? void 0 : user.password)) {
-            const { password } = user, result = __rest(user, ["password"]);
-            return result;
+        if (user === null || user === void 0 ? void 0 : user.blocked) {
+            throw new Error("Your account is not activated!");
+        }
+        else {
+            if (user && await bcrypt_1.default.compare(password, user === null || user === void 0 ? void 0 : user.password)) {
+                const { password } = user, result = __rest(user, ["password"]);
+                return result;
+            }
         }
         return null;
     }

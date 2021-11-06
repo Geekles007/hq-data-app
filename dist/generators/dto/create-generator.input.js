@@ -11,10 +11,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateGeneratorInput = void 0;
 const graphql_1 = require("@nestjs/graphql");
-const generator_entity_1 = require("../generator.entity");
 let CreateGeneratorInput = class CreateGeneratorInput {
     constructor() {
-        this.state = generator_entity_1.State.f;
+        this.state = true;
         this.reference = "";
         this.observation = "";
         this.numSeries = "";
@@ -27,7 +26,7 @@ __decorate([
 ], CreateGeneratorInput.prototype, "id", void 0);
 __decorate([
     (0, graphql_1.Field)(),
-    __metadata("design:type", String)
+    __metadata("design:type", Boolean)
 ], CreateGeneratorInput.prototype, "state", void 0);
 __decorate([
     (0, graphql_1.Field)(),

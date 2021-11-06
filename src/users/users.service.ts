@@ -46,6 +46,7 @@ export class UsersService implements IService<User, CreateUserInput> {
             const newUser = await this.usersRepository.create({
                 id: uuidv4(),
                 ...createUserInput,
+                blocked: true,
                 createdAt: DateTime.now().toUTC().toISO(),
                 updatedAt: DateTime.now().toUTC().toISO(),
                 password: await bcrypt.hash(createUserInput.password, 12)
@@ -66,6 +67,7 @@ export class UsersService implements IService<User, CreateUserInput> {
                 lastname: createUserInput?.lastname && createUserInput?.lastname !== "" ? createUserInput?.lastname : user?.lastname,
                 email: createUserInput?.email && createUserInput?.email !== "" ? createUserInput?.email : user?.email,
                 username: createUserInput?.username && createUserInput?.username !== "" ? createUserInput?.username : user?.username,
+                blocked: createUserInput?.blocked ? createUserInput?.blocked : user?.blocked,
                 password: newPassword,
                 createdAt: user?.createdAt,
                 updatedAt: DateTime.now().toUTC().toISO()

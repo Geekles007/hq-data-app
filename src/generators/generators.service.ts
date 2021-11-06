@@ -11,7 +11,7 @@ import {Repository} from "typeorm";
 import {UsersService} from "../users/users.service";
 import {User} from "../users/user.entity";
 import {InjectRepository} from "@nestjs/typeorm";
-import {Generator} from "./generator.entity";
+import {Generator, State} from "./generator.entity";
 import {PaginateGeneratorResult} from "./dto/PaginateGeneratorResult";
 
 @Injectable()
@@ -32,6 +32,7 @@ export class GeneratorsService implements BaseService<Generator, CreateGenerator
             const newGenerator = await this.generatorsRepository.create({
                 id: uuidv4(),
                 ...data,
+                state: data.state ? State.f : State.p,
                 brand: brand,
                 site: site,
                 observation: data?.observation ?? "",
@@ -94,7 +95,7 @@ export class GeneratorsService implements BaseService<Generator, CreateGenerator
             generator.updatedBy = connected;
             generator.reference = data.reference && data.reference !== "" ? data.reference : generator?.reference;
             generator.power = data.power ? data.power : generator?.power;
-            generator.state = data.state ? data.state : generator?.state;
+            generator.state = data.state !== undefined ? (data.state ? State.f : State.p) : (generator?.state ? State.f : State.p);
             generator.brand = brand;
             generator.site = site;
             generator.observation = data?.observation && data?.observation !== "" ? data?.observation : generator?.observation;
