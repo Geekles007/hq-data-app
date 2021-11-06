@@ -69,7 +69,7 @@ input CreateAtelierInput {
 
 input CreateBoreholeInput {
   cost: Float = 0
-  date: String = "2021-11-06T13:25:50.651+03:00"
+  date: String = "2021-11-06T15:00:54.797+03:00"
   debitCube: Float = 0
   debitCubeH: Float = 0
   depth: Float = 0
